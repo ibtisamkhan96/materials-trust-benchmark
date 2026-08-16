@@ -176,6 +176,10 @@ mtb audit mp-149 --json
 mtb audit Fe2O3 --property formation_energy_per_atom
 ```
 
+### Browse the assay in a browser
+
+The static UI in `site/` is the public face of the run: coverage, the headline disagreements, the eight figures, and a lookup over all 287 assayed compositions. It does not call the APIs. Rebuild the compact index after a new benchmark with `python scripts/build_site.py`.
+
 ### Run the benchmark
 
 ```bash
@@ -379,6 +383,7 @@ scripts/
   unit_harness.py         unit verification against live data
   select_material_set.py  material set selection and justification
   run_benchmark.py        the full run
+  build_site.py           compact JSON and figures for the static UI
   write_readme.py         regenerates this file from results/
   verify_mcp.py           drives layer 2 through a real MCP client
   verify_agent.py         drives layer 3 and the numeric guard
@@ -392,6 +397,7 @@ docs/
   api-reality.md          live API behaviour, generated
   material-set.md         set composition and justification, generated
 results/                  generated outputs, committed
+site/                     static assay UI, deployed on Netlify
   agent_eval.json         every layer 3 eval answer and guard verdict
 ```
 

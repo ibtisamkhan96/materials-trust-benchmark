@@ -23,6 +23,7 @@ venv/
 build/
 dist/
 *.egg-info/
+.netlify/
 
 # The benchmark run transcript is part of the committed evidence trail, so it is
 # exempted from the *.log rule above.

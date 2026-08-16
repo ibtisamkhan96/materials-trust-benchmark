@@ -1,0 +1,16 @@
+[build]
+  publish = "site"
+  # Data and figures are generated locally by scripts/build_site.py and committed.
+  # Netlify does not install pymatgen, so there is no build step here.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
