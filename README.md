@@ -178,7 +178,7 @@ mtb audit Fe2O3 --property formation_energy_per_atom
 
 ### Browse the assay in a browser
 
-The static UI in `site/` is the public face of the run: coverage, the headline disagreements, the eight figures, and a lookup over all 287 assayed compositions. It does not call the APIs. Rebuild the compact index after a new benchmark with `python scripts/build_site.py`.
+The UI in `site/` is the public face of the run: coverage, the headline disagreements, the figures, a lookup over all 287 assayed compositions, and a live panel. The live panel does not use a shared key. The visitor supplies a GitHub token (identity only), a Materials Project key (the numbers), and an Anthropic key (the explanation). Keys stay in the browser tab and are posted only to this site's Netlify functions. Live grouping is by space group, not pymatgen `StructureMatcher`; the CLI remains the authoritative audit. Rebuild the compact index after a new benchmark with `python scripts/build_site.py`.
 
 ### Run the benchmark
 
@@ -383,7 +383,7 @@ scripts/
   unit_harness.py         unit verification against live data
   select_material_set.py  material set selection and justification
   run_benchmark.py        the full run
-  build_site.py           compact JSON and figures for the static UI
+  build_site.py           compact JSON and figures for the assay UI
   write_readme.py         regenerates this file from results/
   verify_mcp.py           drives layer 2 through a real MCP client
   verify_agent.py         drives layer 3 and the numeric guard
@@ -397,8 +397,9 @@ docs/
   api-reality.md          live API behaviour, generated
   material-set.md         set composition and justification, generated
 results/                  generated outputs, committed
-site/                     static assay UI, deployed on Netlify
   agent_eval.json         every layer 3 eval answer and guard verdict
+site/                     assay UI, deployed on Netlify
+netlify/functions/        live audit and explain, visitor-supplied keys
 ```
 
 ## Tests

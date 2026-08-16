@@ -1,0 +1,9 @@
+{
+  "name": "materials-trust-ui",
+  "private": true,
+  "description": "Static assay UI plus Netlify functions for live, key-gated audits.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@netlify/functions": "^2.8.2"
+  }
+}

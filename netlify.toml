@@ -1,7 +1,19 @@
 [build]
+  command = "npm install"
   publish = "site"
-  # Data and figures are generated locally by scripts/build_site.py and committed.
-  # Netlify does not install pymatgen, so there is no build step here.
+  # npm install is only for the live Netlify functions. The assay JSON and
+  # figures are generated locally by scripts/build_site.py and committed.
+  # Netlify does not install pymatgen.
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[dev]
+  framework = "#static"
 
 [[headers]]
   for = "/*"

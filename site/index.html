@@ -14,7 +14,7 @@
   <div class="perforation" aria-hidden="true"></div>
   <header class="mast">
     <p class="mast-id">Assay no. MTB-2026-08-16 · Ibtisam Ahmed Khan</p>
-    <p class="mast-src"><a href="https://github.com/ibtisamkhan96/materials-trust-benchmark">source on github</a></p>
+    <p class="mast-src"><a href="#live">live audit</a> · <a href="https://github.com/ibtisamkhan96/materials-trust-benchmark">source on github</a></p>
   </header>
 
   <main>
@@ -59,6 +59,55 @@
       </article>
     </section>
 
+    <section id="live" class="live" aria-labelledby="live-title">
+      <h2 id="live-title">Run a live audit</h2>
+      <p>
+        This site does not pay for APIs. You bring a GitHub token so the call is
+        yours, an Anthropic key for the explanation, and a Materials Project key
+        for the numbers. GitHub has no formation energies. Keys stay in this
+        browser tab, are sent only to this site's functions, and are not stored.
+      </p>
+      <p class="live-caveat">
+        Live grouping is by space group, not pymatgen StructureMatcher. Distinct
+        crystals can share a space group. The CLI remains the authoritative audit.
+      </p>
+      <form id="keys-form" class="keys" autocomplete="off">
+        <label>
+          GitHub personal access token
+          <input id="k-github" type="password" name="github" spellcheck="false" placeholder="ghp_… or github_pat_…">
+        </label>
+        <p class="hint">Classic token with no extra scopes, or a fine-grained token that can read your profile. Used only to identify you via api.github.com/user.</p>
+        <label>
+          Anthropic API key
+          <input id="k-anthropic" type="password" name="anthropic" spellcheck="false" placeholder="sk-ant-…">
+        </label>
+        <p class="hint">Needed only for “explain”. Get one at console.anthropic.com.</p>
+        <label>
+          Materials Project API key
+          <input id="k-mp" type="password" name="mp" spellcheck="false" placeholder="next-gen dashboard key">
+        </label>
+        <p class="hint">Required for live numbers. Register at next-gen.materialsproject.org/api.</p>
+        <div class="key-actions">
+          <button type="submit" class="btn">Keep keys in this tab</button>
+          <button type="button" id="clear-keys" class="btn ghost">Clear keys</button>
+        </div>
+        <p id="key-status" class="status" role="status"></p>
+      </form>
+      <div class="live-work">
+        <label>
+          Composition
+          <input id="live-formula" type="text" placeholder="Fe2O3" spellcheck="false">
+        </label>
+        <button type="button" id="run-audit" class="btn">Audit live</button>
+        <label>
+          Ask the explainer
+          <textarea id="live-q" rows="3" placeholder="Why do Materials Project and OQMD disagree on Fe2O3 formation energy?"></textarea>
+        </label>
+        <button type="button" id="run-explain" class="btn">Explain live</button>
+      </div>
+      <div id="live-out" class="live-out" hidden></div>
+    </section>
+
     <section id="explore" class="explorer">
       <div class="explorer-head">
         <h2>Look up an assayed material</h2>
@@ -81,6 +130,7 @@
           <dl id="d-values" class="kv"></dl>
           <p id="d-hubbard" class="hubbard"></p>
           <p class="cli">To re-run this composition locally: <code id="d-cli">mtb audit Fe2O3</code></p>
+          <button type="button" id="d-live" class="btn">Audit this formula live</button>
         </article>
       </div>
     </section>
@@ -109,7 +159,7 @@
     <section class="limits">
       <h2>What this page is not</h2>
       <ul>
-        <li>It does not run a live audit in the browser. That needs pymatgen, two APIs, and a key. Use <code>mtb audit TiO2</code>.</li>
+        <li>The live panel groups by space group. That is weaker than the CLI, which matches crystals with pymatgen StructureMatcher. Use <code>mtb audit TiO2</code> when the structure identity matters.</li>
         <li>287 is a stratified sample, not a census. It over-weights correlated oxides because that is where disagreement was predicted.</li>
         <li>Experimental band gaps are composition-level. Lab data has no crystal to match, so that comparison is weaker than database versus database.</li>
         <li>Zero high-confidence bands is a metadata limit at OQMD, not a finding that every number is wrong.</li>
