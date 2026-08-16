@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "materials-trust-benchmark"
+version = "0.1.0"
+description = "A physics-correct validation layer for materials property data: can I trust this number?"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Ibtisam Ahmed Khan" }]
+keywords = ["materials", "dft", "benchmark", "data-quality", "provenance"]
+
+dependencies = [
+    "pymatgen>=2024.1.1",
+    "mp-api>=0.41.0",
+    "matminer>=0.9.2",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+agent = [
+    "mcp>=1.2.0",
+    "langchain>=0.3.0",
+    "langchain-anthropic>=0.3.0",
+    "langgraph>=0.2.0",
+    "langsmith>=0.1.100",
+]
+dev = ["pytest>=8.0.0"]
+
+[project.scripts]
+mtb = "materials_trust.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Plain `pytest` must pass with no API key and no connection. Use `pytest -m network`
+# to additionally check the live sources have not changed shape.
+addopts = "-m 'not network'"
+markers = [
+    "network: test requires live API access",
+]

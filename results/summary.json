@@ -1,0 +1,2350 @@
+{
+  "generated_at": "2026-08-16 00:58:10",
+  "elapsed_seconds": 779.0,
+  "n_compositions_requested": 287,
+  "n_compositions_audited": 287,
+  "n_trust_records": 2592,
+  "coverage": {
+    "n_compositions": 287,
+    "found_in_materials_project": 284,
+    "found_in_oqmd": 223,
+    "found_in_both": 222,
+    "found_in_neither": 2,
+    "n_structure_matched_multi_source": 344
+  },
+  "unit_checks": {
+    "oqmd": {
+      "source": "oqmd",
+      "passed": true,
+      "n_compounds": 10,
+      "n_decisive": 10,
+      "tolerance_ev_per_atom": 0.5,
+      "verdicts": [
+        {
+          "formula": "NaCl",
+          "reported_value": -2.0509268057353855,
+          "literature_ev_per_atom": -2.1305,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -2.0509 against an experimental -2.1305 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "NaF",
+          "reported_value": -2.97399618999138,
+          "literature_ev_per_atom": -2.988,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -2.9740 against an experimental -2.9880 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "LiF",
+          "reported_value": -3.14987675956555,
+          "literature_ev_per_atom": -3.1922,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.1499 against an experimental -3.1922 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "MgO",
+          "reported_value": -2.946238850022712,
+          "literature_ev_per_atom": -3.1176,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -2.9462 against an experimental -3.1176 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "CaO",
+          "reported_value": -3.19556887793938,
+          "literature_ev_per_atom": -3.2901,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.1956 against an experimental -3.2901 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "ZnO",
+          "reported_value": -1.649805577939377,
+          "literature_ev_per_atom": -1.8163,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -1.6498 against an experimental -1.8163 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "Al2O3",
+          "reported_value": -3.2541469499022533,
+          "literature_ev_per_atom": -3.4735,
+          "atoms_per_formula_unit": 5.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.2541 against an experimental -3.4735 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "TiO2",
+          "reported_value": -3.24264089184792,
+          "literature_ev_per_atom": -3.2613,
+          "atoms_per_formula_unit": 3.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.2426 against an experimental -3.2613 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "SiO2",
+          "reported_value": -3.0735559472525,
+          "literature_ev_per_atom": -3.1463,
+          "atoms_per_formula_unit": 3.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.0736 against an experimental -3.1463 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "Fe2O3",
+          "reported_value": -1.64976314239295,
+          "literature_ev_per_atom": -1.7085,
+          "atoms_per_formula_unit": 5.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -1.6498 against an experimental -1.7085 eV/atom, and inconsistent with every other unit hypothesis"
+        }
+      ]
+    },
+    "materials_project": {
+      "source": "materials_project",
+      "passed": true,
+      "n_compounds": 10,
+      "n_decisive": 10,
+      "tolerance_ev_per_atom": 0.5,
+      "verdicts": [
+        {
+          "formula": "NaCl",
+          "reported_value": -2.1096165782758622,
+          "literature_ev_per_atom": -2.1305,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -2.1096 against an experimental -2.1305 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "NaF",
+          "reported_value": -2.936964410775862,
+          "literature_ev_per_atom": -2.988,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -2.9370 against an experimental -2.9880 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "LiF",
+          "reported_value": -3.164395454166666,
+          "literature_ev_per_atom": -3.1922,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.1644 against an experimental -3.1922 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "MgO",
+          "reported_value": -3.0534041524999997,
+          "literature_ev_per_atom": -3.1176,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.0534 against an experimental -3.1176 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "CaO",
+          "reported_value": -3.3060193924999997,
+          "literature_ev_per_atom": -3.2901,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.3060 against an experimental -3.2901 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "ZnO",
+          "reported_value": -1.7908991124999996,
+          "literature_ev_per_atom": -1.8163,
+          "atoms_per_formula_unit": 2.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -1.7909 against an experimental -1.8163 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "Al2O3",
+          "reported_value": -3.4265510080000006,
+          "literature_ev_per_atom": -3.4735,
+          "atoms_per_formula_unit": 5.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.4266 against an experimental -3.4735 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "TiO2",
+          "reported_value": -3.501638054444445,
+          "literature_ev_per_atom": -3.2613,
+          "atoms_per_formula_unit": 3.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.5016 against an experimental -3.2613 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "SiO2",
+          "reported_value": -3.2671838933333333,
+          "literature_ev_per_atom": -3.1463,
+          "atoms_per_formula_unit": 3.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -3.2672 against an experimental -3.1463 eV/atom, and inconsistent with every other unit hypothesis"
+        },
+        {
+          "formula": "Fe2O3",
+          "reported_value": -1.7070913529999998,
+          "literature_ev_per_atom": -1.7085,
+          "atoms_per_formula_unit": 5.0,
+          "consistent_hypotheses": [
+            "eV/atom"
+          ],
+          "verdict": "eV/atom",
+          "passed": true,
+          "detail": "reported -1.7071 against an experimental -1.7085 eV/atom, and inconsistent with every other unit hypothesis"
+        }
+      ]
+    }
+  },
+  "cross_source_formation_energy": {
+    "property": "formation_energy_per_atom",
+    "units": "eV/atom",
+    "threshold": 0.05,
+    "n_structure_matched_pairs": 344,
+    "n_within_threshold": 90,
+    "fraction_within_threshold": 0.2616,
+    "all": {
+      "n": 344,
+      "mean_signed": -0.08979,
+      "median_signed": -0.113,
+      "mean_absolute": 0.11889,
+      "median_absolute": 0.12169,
+      "max_absolute": 0.66968,
+      "min_absolute": 0.00013,
+      "rmse": 0.14945,
+      "std_signed": 0.11965,
+      "abs_p50": 0.12192,
+      "abs_p75": 0.16584,
+      "abs_p90": 0.22978,
+      "abs_p95": 0.26895,
+      "abs_p99": 0.42331
+    },
+    "stratified_by_hubbard_u_policy_mismatch": {
+      "policies_differ": {
+        "n": 93,
+        "mean_signed": -0.01626,
+        "median_signed": -0.00429,
+        "mean_absolute": 0.08973,
+        "median_absolute": 0.06383,
+        "max_absolute": 0.66968,
+        "min_absolute": 0.0009,
+        "rmse": 0.12731,
+        "std_signed": 0.12695,
+        "abs_p50": 0.06383,
+        "abs_p75": 0.11772,
+        "abs_p90": 0.17615,
+        "abs_p95": 0.20791,
+        "abs_p99": 0.34052
+      },
+      "policies_agree": {
+        "n": 251,
+        "mean_signed": -0.11703,
+        "median_signed": -0.13665,
+        "mean_absolute": 0.12969,
+        "median_absolute": 0.13916,
+        "max_absolute": 0.42714,
+        "min_absolute": 0.00013,
+        "rmse": 0.15687,
+        "std_signed": 0.10466,
+        "abs_p50": 0.13916,
+        "abs_p75": 0.17884,
+        "abs_p90": 0.23237,
+        "abs_p95": 0.27428,
+        "abs_p99": 0.42331
+      }
+    },
+    "stratified_by_magnetic_ordering_mismatch": {
+      "ordering_differs": {
+        "n": 42,
+        "mean_signed": -0.0741,
+        "median_signed": -0.08597,
+        "mean_absolute": 0.10145,
+        "median_absolute": 0.09941,
+        "max_absolute": 0.23777,
+        "min_absolute": 0.0009,
+        "rmse": 0.12485,
+        "std_signed": 0.1017,
+        "abs_p50": 0.09676,
+        "abs_p75": 0.15379,
+        "abs_p90": 0.20791,
+        "abs_p95": 0.22073,
+        "abs_p99": 0.23777
+      },
+      "ordering_agrees": {
+        "n": 302,
+        "mean_signed": -0.09197,
+        "median_signed": -0.11789,
+        "mean_absolute": 0.12131,
+        "median_absolute": 0.12448,
+        "max_absolute": 0.66968,
+        "min_absolute": 0.00013,
+        "rmse": 0.15256,
+        "std_signed": 0.12192,
+        "abs_p50": 0.12418,
+        "abs_p75": 0.16672,
+        "abs_p90": 0.23024,
+        "abs_p95": 0.27428,
+        "abs_p99": 0.42331
+      }
+    },
+    "largest_disagreements": [
+      {
+        "formula": "MnO2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -1.061796,
+        "oqmd": -1.731472,
+        "signed_difference_mp_minus_oqmd": 0.669676,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "MnO2 R-3m (#166) n=3",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Tb2O3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -3.503228,
+        "oqmd": -3.076084,
+        "signed_difference_mp_minus_oqmd": -0.427144,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Tb2O3 Pn-3m (#224) n=10",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Tb2O3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -3.927635,
+        "oqmd": -3.503834,
+        "signed_difference_mp_minus_oqmd": -0.423801,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Tb2O3 P-3m1 (#164) n=5",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Tb2O3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -3.98358,
+        "oqmd": -3.560268,
+        "signed_difference_mp_minus_oqmd": -0.423313,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Tb2O3 Ia-3 (#206) n=40",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Tb2O3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -3.943362,
+        "oqmd": -3.520181,
+        "signed_difference_mp_minus_oqmd": -0.423181,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Tb2O3 C2/m (#12) n=15",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "MnF2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -2.966265,
+        "oqmd": -2.625745,
+        "signed_difference_mp_minus_oqmd": -0.34052,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": true,
+        "structure_fingerprint": "MnF2 P4_2/mnm (#136) n=6",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "MnF2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -2.934446,
+        "oqmd": -2.604278,
+        "signed_difference_mp_minus_oqmd": -0.330168,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": true,
+        "structure_fingerprint": "MnF2 Pbcn (#60) n=12",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "LaGaO3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -3.09793,
+        "oqmd": -2.771969,
+        "signed_difference_mp_minus_oqmd": -0.325961,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "LaGaO3 Pnma (#62) n=20",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "HfSe2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -1.660007,
+        "oqmd": -1.346355,
+        "signed_difference_mp_minus_oqmd": -0.313652,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "HfSe2 P-3m1 (#164) n=3",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "VTe2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -0.5893,
+        "oqmd": -0.292898,
+        "signed_difference_mp_minus_oqmd": -0.296402,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "VTe2 P-3m1 (#164) n=3",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "VTe2",
+        "property": "formation_energy_per_atom",
+        "materials_project": -0.607789,
+        "oqmd": -0.311786,
+        "signed_difference_mp_minus_oqmd": -0.296002,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "VTe2 C2/m (#12) n=9",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Cs3Nb2AsSe11",
+        "property": "formation_energy_per_atom",
+        "materials_project": -1.059755,
+        "oqmd": -0.769002,
+        "signed_difference_mp_minus_oqmd": -0.290753,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Cs3Nb2AsSe11 Cc (#9) n=34",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED"
+        ]
+      },
+      {
+        "formula": "Gd2Se3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -2.176607,
+        "oqmd": -1.891091,
+        "signed_difference_mp_minus_oqmd": -0.285516,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Gd2Se3 Pnma (#62) n=20",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Bi2Se3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -0.669422,
+        "oqmd": -0.387504,
+        "signed_difference_mp_minus_oqmd": -0.281918,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Bi2Se3 R-3m (#166) n=5",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Al2Se3",
+        "property": "formation_energy_per_atom",
+        "materials_project": -1.123331,
+        "oqmd": -0.846611,
+        "signed_difference_mp_minus_oqmd": -0.27672,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Al2Se3 Cc (#9) n=10",
+        "confidence": "low",
+        "flags": [
+          "CORRECTION_SCHEME_MISMATCH",
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      }
+    ]
+  },
+  "cross_source_band_gap": {
+    "property": "band_gap",
+    "units": "eV",
+    "threshold": 0.5,
+    "n_structure_matched_pairs": 344,
+    "n_within_threshold": 293,
+    "fraction_within_threshold": 0.8517,
+    "all": {
+      "n": 344,
+      "mean_signed": -0.13545,
+      "median_signed": -0.0633,
+      "mean_absolute": 0.28486,
+      "median_absolute": 0.15225,
+      "max_absolute": 3.9831,
+      "min_absolute": 0.0,
+      "rmse": 0.54608,
+      "std_signed": 0.52978,
+      "abs_p50": 0.1525,
+      "abs_p75": 0.3533,
+      "abs_p90": 0.631,
+      "abs_p95": 1.134,
+      "abs_p99": 2.428
+    },
+    "stratified_by_hubbard_u_policy_mismatch": {
+      "policies_differ": {
+        "n": 93,
+        "mean_signed": -0.1812,
+        "median_signed": -0.0339,
+        "mean_absolute": 0.48279,
+        "median_absolute": 0.2575,
+        "max_absolute": 3.9831,
+        "min_absolute": 0.0,
+        "rmse": 0.81477,
+        "std_signed": 0.79867,
+        "abs_p50": 0.2575,
+        "abs_p75": 0.5574,
+        "abs_p90": 1.1873,
+        "abs_p95": 1.434,
+        "abs_p99": 3.2273
+      },
+      "policies_agree": {
+        "n": 251,
+        "mean_signed": -0.1185,
+        "median_signed": -0.0682,
+        "mean_absolute": 0.21153,
+        "median_absolute": 0.11977,
+        "max_absolute": 3.5543,
+        "min_absolute": 0.0,
+        "rmse": 0.40338,
+        "std_signed": 0.38635,
+        "abs_p50": 0.11977,
+        "abs_p75": 0.2827,
+        "abs_p90": 0.4924,
+        "abs_p95": 0.7961,
+        "abs_p99": 1.2539
+      }
+    },
+    "stratified_by_magnetic_ordering_mismatch": {
+      "ordering_differs": {
+        "n": 42,
+        "mean_signed": -0.4277,
+        "median_signed": -0.17532,
+        "mean_absolute": 0.45117,
+        "median_absolute": 0.1903,
+        "max_absolute": 3.9831,
+        "min_absolute": 0.0,
+        "rmse": 0.92449,
+        "std_signed": 0.82955,
+        "abs_p50": 0.1832,
+        "abs_p75": 0.4832,
+        "abs_p90": 0.682,
+        "abs_p95": 2.15,
+        "abs_p99": 3.9831
+      },
+      "ordering_agrees": {
+        "n": 302,
+        "mean_signed": -0.09481,
+        "median_signed": -0.05265,
+        "mean_absolute": 0.26173,
+        "median_absolute": 0.1477,
+        "max_absolute": 3.5543,
+        "min_absolute": 0.0,
+        "rmse": 0.4699,
+        "std_signed": 0.461,
+        "abs_p50": 0.1472,
+        "abs_p75": 0.3327,
+        "abs_p90": 0.5918,
+        "abs_p95": 1.0567,
+        "abs_p99": 1.5051
+      }
+    },
+    "largest_disagreements": [
+      {
+        "formula": "CeMoO4F",
+        "property": "band_gap",
+        "materials_project": 0.0979,
+        "oqmd": 4.081,
+        "signed_difference_mp_minus_oqmd": -3.9831,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": true,
+        "functional_mismatch": true,
+        "structure_fingerprint": "CeMoO4F P2_1/c (#14) n=28",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_MISMATCH"
+        ]
+      },
+      {
+        "formula": "ZrO2",
+        "property": "band_gap",
+        "materials_project": 3.5543,
+        "oqmd": 0.0,
+        "signed_difference_mp_minus_oqmd": 3.5543,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "ZrO2 Pca2_1 (#29) n=12",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "CeBiW2O9",
+        "property": "band_gap",
+        "materials_project": 0.1477,
+        "oqmd": 3.375,
+        "signed_difference_mp_minus_oqmd": -3.2273,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": true,
+        "functional_mismatch": true,
+        "structure_fingerprint": "CeBiW2O9 C2/c (#15) n=52",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_MISMATCH"
+        ]
+      },
+      {
+        "formula": "Cr2O3",
+        "property": "band_gap",
+        "materials_project": 0.0,
+        "oqmd": 2.428,
+        "signed_difference_mp_minus_oqmd": -2.428,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Cr2O3 R-3c (#167) n=10",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "UO2",
+        "property": "band_gap",
+        "materials_project": 0.0,
+        "oqmd": 2.305,
+        "signed_difference_mp_minus_oqmd": -2.305,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": true,
+        "structure_fingerprint": "UO2 P4_2/mnm (#136) n=6",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Eu2Ga2GeS7",
+        "property": "band_gap",
+        "materials_project": 0.0,
+        "oqmd": 2.15,
+        "signed_difference_mp_minus_oqmd": -2.15,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": true,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Eu2Ga2GeS7 P-42_1m (#113) n=24",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_MISMATCH"
+        ]
+      },
+      {
+        "formula": "MnF2",
+        "property": "band_gap",
+        "materials_project": 3.0911,
+        "oqmd": 1.586,
+        "signed_difference_mp_minus_oqmd": 1.5051,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": true,
+        "structure_fingerprint": "MnF2 Pbcn (#60) n=12",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "MnO2",
+        "property": "band_gap",
+        "materials_project": 0.0,
+        "oqmd": 1.434,
+        "signed_difference_mp_minus_oqmd": -1.434,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "MnO2 P6_3/mmc (#194) n=12",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Cr2O3",
+        "property": "band_gap",
+        "materials_project": 2.3438,
+        "oqmd": 1.0545,
+        "signed_difference_mp_minus_oqmd": 1.2893,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Cr2O3 Pbcn (#60) n=20",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "LiF",
+        "property": "band_gap",
+        "materials_project": 8.7161,
+        "oqmd": 9.97,
+        "signed_difference_mp_minus_oqmd": -1.2539,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "LiF Fm-3m (#225) n=2",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "LiF",
+        "property": "band_gap",
+        "materials_project": 7.5593,
+        "oqmd": 8.795,
+        "signed_difference_mp_minus_oqmd": -1.2357,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "LiF Pm-3m (#221) n=2",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "Fe2O3",
+        "property": "band_gap",
+        "materials_project": 0.0,
+        "oqmd": 1.221,
+        "signed_difference_mp_minus_oqmd": -1.221,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "Fe2O3 R-3c (#167) n=10",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "MnF2",
+        "property": "band_gap",
+        "materials_project": 2.5363,
+        "oqmd": 1.322,
+        "signed_difference_mp_minus_oqmd": 1.2143,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": true,
+        "structure_fingerprint": "MnF2 P4_2/mnm (#136) n=6",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "FUNCTIONAL_MISMATCH",
+          "HUBBARD_U_MISMATCH",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "CrO3",
+        "property": "band_gap",
+        "materials_project": 2.1638,
+        "oqmd": 0.9765,
+        "signed_difference_mp_minus_oqmd": 1.1873,
+        "hubbard_u_mismatch": true,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "CrO3 Ama2 (#40) n=8",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HUBBARD_U_MISMATCH",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "MAGNETIC_UNKNOWN",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      },
+      {
+        "formula": "KF",
+        "property": "band_gap",
+        "materials_project": 6.2747,
+        "oqmd": 7.432,
+        "signed_difference_mp_minus_oqmd": -1.1573,
+        "hubbard_u_mismatch": false,
+        "magnetic_mismatch": false,
+        "functional_mismatch": false,
+        "structure_fingerprint": "KF Pm-3m (#221) n=2",
+        "confidence": "low",
+        "flags": [
+          "FUNCTIONAL_INFERRED",
+          "HYPOTHETICAL",
+          "LARGE_DISAGREEMENT",
+          "MAGNETIC_INFERRED",
+          "POLYMORPH_AMBIGUOUS"
+        ]
+      }
+    ]
+  },
+  "dft_vs_experiment_materials_project": {
+    "n_comparisons_attempted": 284,
+    "n_with_computed_value": 284,
+    "n_measured_gapped": 244,
+    "n_measured_metallic": 40,
+    "n_clean_gapped": 200,
+    "polymorph_spread_tolerance_ev": 0.5,
+    "gapped_all_polymorph_states": {
+      "n": 244,
+      "mean_signed": -0.93202,
+      "median_signed": -0.6627,
+      "mean_absolute": 1.08258,
+      "median_absolute": 0.7748,
+      "max_absolute": 7.5352,
+      "min_absolute": 0.0041,
+      "rmse": 1.50643,
+      "std_signed": 1.18592,
+      "abs_p50": 0.7789,
+      "abs_p75": 1.4711,
+      "abs_p90": 2.4221,
+      "abs_p95": 2.9393,
+      "abs_p99": 4.7374
+    },
+    "gapped_clean_only": {
+      "n": 200,
+      "mean_signed": -0.82642,
+      "median_signed": -0.6206,
+      "mean_absolute": 0.96794,
+      "median_absolute": 0.7143,
+      "max_absolute": 4.9,
+      "min_absolute": 0.0041,
+      "rmse": 1.31049,
+      "std_signed": 1.01961,
+      "abs_p50": 0.7166,
+      "abs_p75": 1.3373,
+      "abs_p90": 2.2951,
+      "abs_p95": 2.64,
+      "abs_p99": 4.3506
+    },
+    "fraction_underestimated_clean": 0.845,
+    "n_computed_zero_gap_but_measured_gapped": 33,
+    "fraction_computed_zero_gap_but_measured_gapped": 0.1352,
+    "metals": {
+      "n": 40,
+      "n_computed_also_zero_gap": 37,
+      "fraction_computed_also_zero_gap": 0.925,
+      "note": "a computed gap of zero does not establish metallicity, so this is reported as a classification agreement rate and not as evidence that the calculation is correct"
+    },
+    "worst_underestimates": [
+      {
+        "formula": "PrB6",
+        "experimental_gap_ev": 4.9,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaaasww",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.9,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-12762",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CaB6",
+        "experimental_gap_ev": 4.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaaabhh",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.5,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-865",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "KF",
+        "experimental_gap_ev": 10.3,
+        "measured_as_metal": false,
+        "computed_gap_ev": 5.949400000000001,
+        "computed_material_id": "mp-aaaaaarv",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.3506,
+        "polymorph_spread_ev": 0.3253,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-463",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "KCl",
+        "experimental_gap_ev": 8.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 5.0448,
+        "computed_material_id": "mp-aaaabiib",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -3.4552,
+        "polymorph_spread_ev": 0.2445,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-23193",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CdCu(SeO3)2",
+        "experimental_gap_ev": 3.33,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaacqast",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -3.33,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1195655",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "DyB6",
+        "experimental_gap_ev": 3.3,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaabgisl",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -3.3,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-568319",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BaSnO3",
+        "experimental_gap_ev": 3.1,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.3730000000000002,
+        "computed_material_id": "mp-aaaaaerr",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.727,
+        "polymorph_spread_ev": 0.2921,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-3163",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Mn(SbO2)2",
+        "experimental_gap_ev": 2.65,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaabclr",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": -2.65,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-19231",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "EuAl2O4",
+        "experimental_gap_ev": 2.74,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0990000000000002,
+        "computed_material_id": "mp-aaacgamm",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.641,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1019732",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Cu2Te3O8",
+        "experimental_gap_ev": 2.64,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaabaaw",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.64,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-17598",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BaB6",
+        "experimental_gap_ev": 2.64,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaaabks",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.64,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-954",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CuHg(SeO3)2",
+        "experimental_gap_ev": 3.25,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.7487999999999999,
+        "computed_material_id": "mp-aaacpzpw",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.5012,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1194904",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "MnPSe3",
+        "experimental_gap_ev": 2.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaaaamwl",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.5,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-8695",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "MnSe",
+        "experimental_gap_ev": 2.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "mp-aaacewpw",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.5,
+        "polymorph_spread_ev": 0.0484,
+        "n_polymorphs": 5,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-999540",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CeMoO4F",
+        "experimental_gap_ev": 2.52,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0979000000000001,
+        "computed_material_id": "mp-aaacpvze",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": -2.4221,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1192442",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      }
+    ],
+    "worst_overestimates": [
+      {
+        "formula": "Rb3Zn(BO2)5",
+        "experimental_gap_ev": 2.66,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.1752,
+        "computed_material_id": "mp-aaacgbvn",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.5152,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1020643",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Rb3Cd(BO2)5",
+        "experimental_gap_ev": 2.34,
+        "measured_as_metal": false,
+        "computed_gap_ev": 3.7312000000000003,
+        "computed_material_id": "mp-aaacqhzt",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.3912,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1200569",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Ba8Al10B12O41",
+        "experimental_gap_ev": 3.1,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.4373,
+        "computed_material_id": "mp-aaacgaer",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.3373,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1019529",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "KBaB5O9",
+        "experimental_gap_ev": 3.65,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.8693,
+        "computed_material_id": "mp-aaabfspg",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.2193,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-557420",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "ZnB12(H5O12)2",
+        "experimental_gap_ev": 4.6,
+        "measured_as_metal": false,
+        "computed_gap_ev": 5.7958,
+        "computed_material_id": "mp-aaacqarr",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.1958,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1195627",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BiTeI",
+        "experimental_gap_ev": 0.46,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.2751000000000001,
+        "computed_material_id": "mp-aaaabhzh",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.8151,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-22965",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Cs3Bi2I9",
+        "experimental_gap_ev": 1.8,
+        "measured_as_metal": false,
+        "computed_gap_ev": 2.6104000000000003,
+        "computed_material_id": "mp-aaabmcik",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.8104,
+        "polymorph_spread_ev": 0.2681,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-669458",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "SbOsSe",
+        "experimental_gap_ev": 0.4,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.1232999999999995,
+        "computed_material_id": "mp-aaackrvv",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.7233,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1101771",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "PtS2",
+        "experimental_gap_ev": 0.75,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.4394999999999998,
+        "computed_material_id": "mp-aaaaabdi",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.6895,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-762",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Rb3Bi2Br9",
+        "experimental_gap_ev": 2.62,
+        "measured_as_metal": false,
+        "computed_gap_ev": 3.2176,
+        "computed_material_id": "mp-aaacqahn",
+        "computed_source": "materials_project",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.5976,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": "mp-1195363",
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      }
+    ]
+  },
+  "dft_vs_experiment_oqmd": {
+    "n_comparisons_attempted": 223,
+    "n_with_computed_value": 223,
+    "n_measured_gapped": 186,
+    "n_measured_metallic": 37,
+    "n_clean_gapped": 104,
+    "polymorph_spread_tolerance_ev": 0.5,
+    "gapped_all_polymorph_states": {
+      "n": 186,
+      "mean_signed": -0.85731,
+      "median_signed": -0.6,
+      "mean_absolute": 1.05181,
+      "median_absolute": 0.6635,
+      "max_absolute": 8.314,
+      "min_absolute": 0.006,
+      "rmse": 1.5096,
+      "std_signed": 1.24589,
+      "abs_p50": 0.66,
+      "abs_p75": 1.447,
+      "abs_p90": 2.3,
+      "abs_p95": 3.23,
+      "abs_p99": 4.277
+    },
+    "gapped_clean_only": {
+      "n": 104,
+      "mean_signed": -0.68512,
+      "median_signed": -0.522,
+      "mean_absolute": 0.89266,
+      "median_absolute": 0.5885,
+      "max_absolute": 4.9,
+      "min_absolute": 0.006,
+      "rmse": 1.29137,
+      "std_signed": 1.09995,
+      "abs_p50": 0.591,
+      "abs_p75": 1.08,
+      "abs_p90": 2.2,
+      "abs_p95": 2.5,
+      "abs_p99": 4.277
+    },
+    "fraction_underestimated_clean": 0.7788,
+    "n_computed_zero_gap_but_measured_gapped": 26,
+    "fraction_computed_zero_gap_but_measured_gapped": 0.1398,
+    "metals": {
+      "n": 37,
+      "n_computed_also_zero_gap": 33,
+      "fraction_computed_also_zero_gap": 0.8919,
+      "note": "a computed gap of zero does not establish metallicity, so this is reported as a classification agreement rate and not as evidence that the calculation is correct"
+    },
+    "worst_underestimates": [
+      {
+        "formula": "PrB6",
+        "experimental_gap_ev": 4.9,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "19356",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.9,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CaB6",
+        "experimental_gap_ev": 4.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.223000000000001,
+        "computed_material_id": "5116",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.277,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "YbWClO4",
+        "experimental_gap_ev": 4.23,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "1814252",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -4.23,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "DyB6",
+        "experimental_gap_ev": 3.3,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "19358",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -3.3,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Bi2(MoO4)3",
+        "experimental_gap_ev": 2.9,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "1540870",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.9,
+        "polymorph_spread_ev": 0.0,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "MnPSe3",
+        "experimental_gap_ev": 2.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "647363",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.5,
+        "polymorph_spread_ev": 0.403,
+        "n_polymorphs": 3,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "MnSe",
+        "experimental_gap_ev": 2.5,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "1472963",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.5,
+        "polymorph_spread_ev": 0.0,
+        "n_polymorphs": 17,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BaB6",
+        "experimental_gap_ev": 2.64,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.258,
+        "computed_material_id": "646731",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.382,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "ReO3",
+        "experimental_gap_ev": 2.3,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "1762722",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.3,
+        "polymorph_spread_ev": 0.0,
+        "n_polymorphs": 13,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Tl2O3",
+        "experimental_gap_ev": 2.25,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "5130",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.25,
+        "polymorph_spread_ev": 0.0,
+        "n_polymorphs": 9,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Tl4CuTeO6",
+        "experimental_gap_ev": 2.2,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "2046370",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": -2.2,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Co2Te3O8",
+        "experimental_gap_ev": 3.6,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.58,
+        "computed_material_id": "646568",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": -2.02,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BaPrO3",
+        "experimental_gap_ev": 2.0,
+        "measured_as_metal": false,
+        "computed_gap_ev": 0.0,
+        "computed_material_id": "646889",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -2.0,
+        "polymorph_spread_ev": 0.0,
+        "n_polymorphs": 18,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "K2Al2B2O7",
+        "experimental_gap_ev": 6.89,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.912,
+        "computed_material_id": "648797",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -1.978,
+        "polymorph_spread_ev": 0.145,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Bi2CO5",
+        "experimental_gap_ev": 3.42,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.461,
+        "computed_material_id": "16360",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": -1.959,
+        "polymorph_spread_ev": 0.023,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      }
+    ],
+    "worst_overestimates": [
+      {
+        "formula": "Ba8Al10B12O41",
+        "experimental_gap_ev": 3.1,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.717,
+        "computed_material_id": "2058919",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.617,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CeMoO4F",
+        "experimental_gap_ev": 2.52,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.081,
+        "computed_material_id": "2051238",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.561,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "V3As2O9",
+        "experimental_gap_ev": 0.76,
+        "measured_as_metal": false,
+        "computed_gap_ev": 2.103,
+        "computed_material_id": "2050741",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": 1.343,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "CeBiW2O9",
+        "experimental_gap_ev": 2.34,
+        "measured_as_metal": false,
+        "computed_gap_ev": 3.375,
+        "computed_material_id": "2045928",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 1.035,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BiTeI",
+        "experimental_gap_ev": 0.46,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.334,
+        "computed_material_id": "2779",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.874,
+        "polymorph_spread_ev": 0.163,
+        "n_polymorphs": 3,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Ta2Mn3O8",
+        "experimental_gap_ev": 1.89,
+        "measured_as_metal": false,
+        "computed_gap_ev": 2.523,
+        "computed_material_id": "75936",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": 0.633,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "Cs3Bi2I9",
+        "experimental_gap_ev": 1.8,
+        "measured_as_metal": false,
+        "computed_gap_ev": 2.386,
+        "computed_material_id": "25221",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.586,
+        "polymorph_spread_ev": 0.328,
+        "n_polymorphs": 2,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "KUClO3",
+        "experimental_gap_ev": 2.37,
+        "measured_as_metal": false,
+        "computed_gap_ev": 2.9110000000000005,
+        "computed_material_id": "2024867",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE+U",
+        "signed_error_ev": 0.541,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "BiSeI",
+        "experimental_gap_ev": 1.28,
+        "measured_as_metal": false,
+        "computed_gap_ev": 1.665,
+        "computed_material_id": "643740",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.385,
+        "polymorph_spread_ev": 0.391,
+        "n_polymorphs": 6,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      },
+      {
+        "formula": "PrMoO4F",
+        "experimental_gap_ev": 3.64,
+        "measured_as_metal": false,
+        "computed_gap_ev": 4.015,
+        "computed_material_id": "2051239",
+        "computed_source": "oqmd",
+        "computed_functional": "PBE",
+        "signed_error_ev": 0.375,
+        "polymorph_spread_ev": null,
+        "n_polymorphs": 1,
+        "clean_comparison": true,
+        "polymorph_spread_tolerance_ev": 0.5,
+        "likely_mpid": null,
+        "likely_mpid_gap_ev": null,
+        "comparison_level": "composition, not structure matched",
+        "notes": [
+          "an experimental band gap is reported against a composition, so this comparison is composition-level and cannot be structure matched"
+        ]
+      }
+    ]
+  },
+  "flag_frequencies": {
+    "n_trust_records": 2592,
+    "counts": {
+      "POLYMORPH_AMBIGUOUS": 2322,
+      "FUNCTIONAL_INFERRED": 2121,
+      "MAGNETIC_INFERRED": 2117,
+      "HYPOTHETICAL": 1929,
+      "SINGLE_SOURCE": 1904,
+      "MAGNETIC_UNKNOWN": 378,
+      "CORRECTION_SCHEME_MISMATCH": 344,
+      "LARGE_DISAGREEMENT": 305,
+      "HUBBARD_U_MISMATCH": 186,
+      "FUNCTIONAL_MISMATCH": 104,
+      "MAGNETIC_MISMATCH": 84
+    },
+    "fractions": {
+      "POLYMORPH_AMBIGUOUS": 0.8958,
+      "FUNCTIONAL_INFERRED": 0.8183,
+      "MAGNETIC_INFERRED": 0.8167,
+      "HYPOTHETICAL": 0.7442,
+      "SINGLE_SOURCE": 0.7346,
+      "MAGNETIC_UNKNOWN": 0.1458,
+      "CORRECTION_SCHEME_MISMATCH": 0.1327,
+      "LARGE_DISAGREEMENT": 0.1177,
+      "HUBBARD_U_MISMATCH": 0.0718,
+      "FUNCTIONAL_MISMATCH": 0.0401,
+      "MAGNETIC_MISMATCH": 0.0324
+    }
+  },
+  "confidence_distribution": {
+    "high": 0,
+    "moderate": 338,
+    "low": 350,
+    "not_assessable": 1904
+  },
+  "confidence_band_limits": {
+    "n_multi_source_comparisons": 688,
+    "n_base_band_high_on_spread_alone": 289,
+    "n_final_band_high": 0,
+    "n_with_no_capping_provenance_caveat": 0,
+    "capping_flag_counts": {
+      "FUNCTIONAL_INFERRED": 688,
+      "CORRECTION_SCHEME_MISMATCH": 344,
+      "MAGNETIC_UNKNOWN": 342,
+      "MAGNETIC_INFERRED": 217,
+      "HYPOTHETICAL": 72
+    },
+    "capping_flags_present_in_every_comparison": [
+      "FUNCTIONAL_INFERRED"
+    ],
+    "note": "A comparison whose base band is high agreed within half the disagreement threshold. If it does not end at high, the limit was provenance rather than disagreement."
+  },
+  "figures": {
+    "formation_energy_disagreement": "results/figures/formation_energy_disagreement.png",
+    "band_gap_disagreement": "results/figures/band_gap_disagreement.png",
+    "formation_energy_by_hubbard": "results/figures/formation_energy_by_hubbard.png",
+    "band_gap_by_hubbard": "results/figures/band_gap_by_hubbard.png",
+    "gap_parity": "results/figures/gap_parity.png",
+    "gap_error_histogram": "results/figures/gap_error_histogram.png",
+    "flag_frequencies": "results/figures/flag_frequencies.png",
+    "confidence_distribution": "results/figures/confidence_distribution.png"
+  },
+  "n_run_failures": 0,
+  "source_failures": {
+    "materials_project": [
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaafzwdj thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:45:12+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaagjcbm thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:45:12+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaagjept thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:49:14+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaeknmt thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:49:16+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaelfdh thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:51:42+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaeijet thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:55:04+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaeijfi thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:55:04+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaeltqk thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:56:25+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaadjkms thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:56:26+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaadirxr thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:57:59+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaagbbfm thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:58:02+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaahbarh thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:58:02+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaaahyi thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:58:02+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaaadhz thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:58:04+00:00"
+      },
+      {
+        "source": "materials_project",
+        "query": "thermo mp-aaaaarsn thermo_type=GGA_GGA+U",
+        "reason": "no GGA_GGA+U thermo document, so no formation energy comparable with OQMD exists for this material",
+        "occurred_at": "2026-08-15T23:58:05+00:00"
+      }
+    ],
+    "oqmd": [
+      {
+        "source": "oqmd",
+        "query": "composition=SiO2 entry_id=98214",
+        "reason": "record construction failed: ProvenanceError: formation energy of 84.17167597219195 eV/atom is outside the plausibility bound of +/-20.0 eV/atom. This usually means the source reported per formula unit or in kJ/mol and the conversion was missed.",
+        "occurred_at": "2026-08-15T23:45:11+00:00"
+      },
+      {
+        "source": "oqmd",
+        "query": "composition=KF entry_id=1472767",
+        "reason": "record construction failed: ProvenanceError: formation energy of 20.686005542934446 eV/atom is outside the plausibility bound of +/-20.0 eV/atom. This usually means the source reported per formula unit or in kJ/mol and the conversion was missed.",
+        "occurred_at": "2026-08-15T23:57:39+00:00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,260 @@
+[
+  {
+    "source": "oqmd",
+    "passed": true,
+    "n_compounds": 10,
+    "n_decisive": 10,
+    "tolerance_ev_per_atom": 0.5,
+    "verdicts": [
+      {
+        "formula": "NaCl",
+        "reported_value": -2.0509268057353855,
+        "literature_ev_per_atom": -2.1305,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -2.0509 against an experimental -2.1305 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "NaF",
+        "reported_value": -2.97399618999138,
+        "literature_ev_per_atom": -2.988,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -2.9740 against an experimental -2.9880 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "LiF",
+        "reported_value": -3.14987675956555,
+        "literature_ev_per_atom": -3.1922,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.1499 against an experimental -3.1922 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "MgO",
+        "reported_value": -2.946238850022712,
+        "literature_ev_per_atom": -3.1176,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -2.9462 against an experimental -3.1176 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "CaO",
+        "reported_value": -3.19556887793938,
+        "literature_ev_per_atom": -3.2901,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.1956 against an experimental -3.2901 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "ZnO",
+        "reported_value": -1.649805577939377,
+        "literature_ev_per_atom": -1.8163,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -1.6498 against an experimental -1.8163 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "Al2O3",
+        "reported_value": -3.2541469499022533,
+        "literature_ev_per_atom": -3.4735,
+        "atoms_per_formula_unit": 5.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.2541 against an experimental -3.4735 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "TiO2",
+        "reported_value": -3.24264089184792,
+        "literature_ev_per_atom": -3.2613,
+        "atoms_per_formula_unit": 3.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.2426 against an experimental -3.2613 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "SiO2",
+        "reported_value": -3.0735559472525,
+        "literature_ev_per_atom": -3.1463,
+        "atoms_per_formula_unit": 3.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.0736 against an experimental -3.1463 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "Fe2O3",
+        "reported_value": -1.64976314239295,
+        "literature_ev_per_atom": -1.7085,
+        "atoms_per_formula_unit": 5.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -1.6498 against an experimental -1.7085 eV/atom, and inconsistent with every other unit hypothesis"
+      }
+    ]
+  },
+  {
+    "source": "materials_project",
+    "passed": true,
+    "n_compounds": 10,
+    "n_decisive": 10,
+    "tolerance_ev_per_atom": 0.5,
+    "verdicts": [
+      {
+        "formula": "NaCl",
+        "reported_value": -2.1096165782758622,
+        "literature_ev_per_atom": -2.1305,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -2.1096 against an experimental -2.1305 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "NaF",
+        "reported_value": -2.936964410775862,
+        "literature_ev_per_atom": -2.988,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -2.9370 against an experimental -2.9880 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "LiF",
+        "reported_value": -3.164395454166666,
+        "literature_ev_per_atom": -3.1922,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.1644 against an experimental -3.1922 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "MgO",
+        "reported_value": -3.0534041524999997,
+        "literature_ev_per_atom": -3.1176,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.0534 against an experimental -3.1176 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "CaO",
+        "reported_value": -3.3060193924999997,
+        "literature_ev_per_atom": -3.2901,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.3060 against an experimental -3.2901 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "ZnO",
+        "reported_value": -1.7908991124999996,
+        "literature_ev_per_atom": -1.8163,
+        "atoms_per_formula_unit": 2.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -1.7909 against an experimental -1.8163 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "Al2O3",
+        "reported_value": -3.4265510080000006,
+        "literature_ev_per_atom": -3.4735,
+        "atoms_per_formula_unit": 5.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.4266 against an experimental -3.4735 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "TiO2",
+        "reported_value": -3.501638054444445,
+        "literature_ev_per_atom": -3.2613,
+        "atoms_per_formula_unit": 3.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.5016 against an experimental -3.2613 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "SiO2",
+        "reported_value": -3.2671838933333333,
+        "literature_ev_per_atom": -3.1463,
+        "atoms_per_formula_unit": 3.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -3.2672 against an experimental -3.1463 eV/atom, and inconsistent with every other unit hypothesis"
+      },
+      {
+        "formula": "Fe2O3",
+        "reported_value": -1.7070913529999998,
+        "literature_ev_per_atom": -1.7085,
+        "atoms_per_formula_unit": 5.0,
+        "consistent_hypotheses": [
+          "eV/atom"
+        ],
+        "verdict": "eV/atom",
+        "passed": true,
+        "detail": "reported -1.7071 against an experimental -1.7085 eV/atom, and inconsistent with every other unit hypothesis"
+      }
+    ]
+  }
+]

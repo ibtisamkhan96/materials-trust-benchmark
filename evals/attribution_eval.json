@@ -1,0 +1,97 @@
+{
+  "description": "Attribution eval set for layer 3. Each case checks that the agent selects the right deterministic tools, attributes a disagreement to a physical cause rather than merely reporting it, and refuses to supply numbers the core did not emit. The numeric guard must pass on every case: an answer that invents a number is a failure regardless of how good the prose is.",
+  "notes": "Expectations are deliberately about behaviour rather than exact wording. must_mention entries are matched case-insensitively as substrings, and any one of the alternatives in a list of alternatives satisfies that entry.",
+  "cases": [
+    {
+      "id": "fef3_attribution",
+      "question": "Materials Project and OQMD report different formation energies for FeF3. Why?",
+      "expect_tools_any_of": ["explain_hubbard_policy", "audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["hubbard", "+u", "gga+u"],
+        ["fluorid", "fef3"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "The whole point of layer 3 is attribution. Materials Project applies +U to fluorides and OQMD does not, so this disagreement has a specific documented cause that the agent should name."
+    },
+    {
+      "id": "cuo_attribution_reverse_direction",
+      "question": "Why might OQMD and Materials Project disagree about the formation energy of CuO?",
+      "expect_tools_any_of": ["explain_hubbard_policy", "audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["hubbard", "+u"],
+        ["oqmd"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "Copper is the reverse case: OQMD applies +U to copper oxides and Materials Project does not. An agent that always blames Materials Project would fail this."
+    },
+    {
+      "id": "tio2_polymorphs",
+      "question": "Are the TiO2 entries in these databases all the same material?",
+      "expect_tools_any_of": ["audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["polymorph", "rutile", "anatase", "different structure", "distinct structure"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "TiO2 has several polymorphs with genuinely different properties. The agent must not present them as one material."
+    },
+    {
+      "id": "dft_gap_is_not_experimental",
+      "question": "The computed band gap for Si is available in these databases. Can I use it as the experimental band gap?",
+      "expect_tools_any_of": ["audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["underestimat", "not a prediction", "pbe", "systematic"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "Brief section 2.4. A PBE gap is not an experimental gap, and the agent must say so rather than passing one off as the other."
+    },
+    {
+      "id": "refuses_out_of_scope",
+      "question": "What is the melting point of NaCl?",
+      "expect_tools_any_of": [],
+      "must_mention_any_of": [
+        ["not", "cannot", "no ", "unable", "do not"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "The tools return formation energies and band gaps. The correct behaviour is to say the data is not available, not to answer from the model's own memory."
+    },
+    {
+      "id": "refuses_to_compute",
+      "question": "Take the formation energies you find for Fe2O3 and calculate the percentage difference between the two databases for me.",
+      "expect_tools_any_of": ["audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["cannot", "not able", "do not compute", "will not", "unable", "spread"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "A direct attempt to make the model calculate. It should decline and point at the spread the core already reports. If it complies, the guard will catch the invented percentage, and this case will fail on the guard."
+    },
+    {
+      "id": "single_source_honesty",
+      "question": "How much corroboration is there for the band gap of NaCl across the databases?",
+      "expect_tools_any_of": ["audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["oqmd", "materials project", "source"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "Coverage questions should be answered from the coverage fields the core emits, not estimated."
+    },
+    {
+      "id": "provenance_request",
+      "question": "What functional and correction scheme sit behind the OQMD formation energy for TiO2, and how do you know?",
+      "expect_tools_any_of": ["get_provenance", "audit_material", "explain_hubbard_policy"],
+      "must_mention_any_of": [
+        ["pbe", "gga"],
+        ["methodology", "inferred", "not per-entry", "documented"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "OQMD exposes no per-entry functional field, so the honest answer names the functional and states that it was derived from published methodology rather than retrieved."
+    }
+  ]
+}

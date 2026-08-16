@@ -1,0 +1,53 @@
+{
+  "seed": 20260815,
+  "dataset": "expt_gap_kingsbury",
+  "dataset_reference": "Zhuo, Masouri Tehrani and Brgoch, J. Phys. Chem. Lett. 2018, 9, 1668, as compiled in matminer's expt_gap_kingsbury with Materials Project IDs associated by Kingsbury et al.",
+  "funnel": {
+    "rows_in_dataset": 4604,
+    "rows_with_materials_project_id": 2481,
+    "rows_with_integer_stoichiometry": 2479,
+    "distinct_compositions": 2479
+  },
+  "targets": {
+    "A_correlated_oxide_or_fluoride": 110,
+    "B_main_group_oxide": 60,
+    "C_halide_non_fluoride": 35,
+    "D_chalcogenide_or_pnictide": 40,
+    "E_other": 15
+  },
+  "metal_target": 40,
+  "per_stratum": {
+    "A_correlated_oxide_or_fluoride": {
+      "target": 110,
+      "available": 97,
+      "selected": 97
+    },
+    "B_main_group_oxide": {
+      "target": 60,
+      "available": 201,
+      "selected": 60
+    },
+    "C_halide_non_fluoride": {
+      "target": 35,
+      "available": 82,
+      "selected": 35
+    },
+    "D_chalcogenide_or_pnictide": {
+      "target": 40,
+      "available": 606,
+      "selected": 40
+    },
+    "E_other": {
+      "target": 15,
+      "available": 53,
+      "selected": 15
+    },
+    "M_measured_metallic": {
+      "target": 40,
+      "available": 1440,
+      "selected": 40
+    }
+  },
+  "selected_total": 287,
+  "selected_with_differing_hubbard_policy": 99
+}

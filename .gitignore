@@ -1,0 +1,34 @@
+# Secrets. The Materials Project and Anthropic keys live here.
+.env
+.env.local
+
+# Cached raw API payloads. Kept verbatim on disk for auditability during a run,
+# but regenerable from the APIs and large, so not committed. Delete to force a
+# cold run against the live sources.
+data/
+
+# Written by mp-api on first use.
+.mprester.log.yaml
+
+# Console transcripts. The auditable record of a run is results/summary.json and
+# results/trust_records.json, both of which are committed.
+*.log
+
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# The benchmark run transcript is part of the committed evidence trail, so it is
+# exempted from the *.log rule above.
+!results/benchmark_run.log
+
+# Listed explicitly as well as via the data/ rule above, so that the two large
+# regenerable caches are unambiguously excluded.
+data/raw/
+data/matminer/
