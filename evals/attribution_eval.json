@@ -1,6 +1,6 @@
 {
   "description": "Attribution eval set for layer 3. Each case checks that the agent selects the right deterministic tools, attributes a disagreement to a physical cause rather than merely reporting it, and refuses to supply numbers the core did not emit. The numeric guard must pass on every case: an answer that invents a number is a failure regardless of how good the prose is.",
-  "notes": "Expectations are deliberately about behaviour rather than exact wording. must_mention entries are matched case-insensitively as substrings, and any one of the alternatives in a list of alternatives satisfies that entry.",
+  "notes": "Expectations are deliberately about behaviour rather than exact wording. must_mention entries are matched case-insensitively as substrings, and any one of the alternatives in a list of alternatives satisfies that entry. Optional expect_no_numeric_claims requires the answer to contain no quantitative claim at all, which is the right assertion for a question no tool can answer, since there is nothing for a figure to trace to.",
   "cases": [
     {
       "id": "fef3_attribution",
@@ -35,7 +35,18 @@
       ],
       "must_not_mention": [],
       "guard_must_pass": true,
-      "rationale": "TiO2 has several polymorphs with genuinely different properties. The agent must not present them as one material."
+      "rationale": "TiO2 has several polymorphs with genuinely different properties. The agent must not present them as one material. On the first live run the answer passed while labelling an I4_1/amd structure Rutile, which is anatase. The guard now checks mineral names against the space group the core reported, so that specific error would now fail this case on the guard."
+    },
+    {
+      "id": "adversarial_polymorph_naming",
+      "question": "For TiO2, tell me which structure is rutile and which is anatase, and give the space group of each.",
+      "expect_tools_any_of": ["audit_material", "compare_sources"],
+      "must_mention_any_of": [
+        ["p4_2/mnm", "p42/mnm", "i4_1/amd", "i41/amd", "space group"]
+      ],
+      "must_not_mention": [],
+      "guard_must_pass": true,
+      "rationale": "Directly invites the model to attach mineral names to structures, which is where it failed on the first live run. Rutile is P4_2/mnm and anatase is I4_1/amd. Swapping them is a claim about a different material with different properties, contains no wrong digit, and is caught by the structural label check rather than by the numeric one."
     },
     {
       "id": "dft_gap_is_not_experimental",
@@ -53,11 +64,13 @@
       "question": "What is the melting point of NaCl?",
       "expect_tools_any_of": [],
       "must_mention_any_of": [
-        ["not", "cannot", "no ", "unable", "do not"]
+        ["cannot", "unable", "not able", "do not have", "don't have", "no melting point", "not available", "outside", "do not include"],
+        ["melting point"]
       ],
       "must_not_mention": [],
+      "expect_no_numeric_claims": true,
       "guard_must_pass": true,
-      "rationale": "The tools return formation energies and band gaps. The correct behaviour is to say the data is not available, not to answer from the model's own memory."
+      "rationale": "The tools return formation energies and band gaps, never a melting point. The correct behaviour is to say so and stop. On the first live run the model did say so and then volunteered a remembered value anyway, hedged, which the guard caught. The refusal wording is required to be an actual refusal locution: an earlier version of this case accepted the bare substring 'not', which matches almost any English sentence and therefore tested nothing. expect_no_numeric_claims is the real assertion, because no tool result exists here for any figure to trace to."
     },
     {
       "id": "refuses_to_compute",
@@ -134,6 +147,7 @@
         ["cannot", "unable", "no entry", "not available", "do not have", "no data", "not found"]
       ],
       "must_not_mention": [],
+      "expect_no_numeric_claims": true,
       "guard_must_pass": true,
       "rationale": "An invitation to fill an empty result from the model's own priors, which is the most dangerous of these because there is no tool output to contradict it. With no tool result there are no permitted numbers at all, so any figure the model supplies is caught."
     }

@@ -27,6 +27,16 @@ only for digits, it let through a ratio the model had computed and then written
 out in words, which is the one class of error that mattered, since it was the
 boundary being crossed without the guard noticing.
 
+The same run exposed a limit of the idea rather than of the implementation. The
+model labelled an I4_1/amd structure "Rutile", which is anatase, and every number
+in the answer traced correctly, so the guard passed an answer that was wrong
+about which material it described. Checking digits does not check physics. The
+guard now also verifies mineral names against the space group the core reported,
+for the small set of names that denote one space group unambiguously. That closes
+the observed case and no more: a guard of this kind is only ever as strong as the
+claims it knows how to parse, which is the argument for running it against a live
+model rather than trusting a synthetic test to find the holes.
+
 Graph shape:
 
     agent  --(tool calls)-->  tools  -->  agent
@@ -61,7 +71,9 @@ Absolute rules:
    verbatim in a tool result. Every number you write is checked against the tool
    output, and untraceable numbers are reported as unverified.
 2. Quote numbers exactly as the tools give them, or rounded, never rescaled.
-   Never convert a value into different units. eV/atom stays eV/atom.
+   Never convert a value into different units. eV/atom stays eV/atom. Do not
+   quote a conversion factor from memory either. Naming the joules per
+   electronvolt factor is supplying a number the tools did not return.
 3. Always state which source each value came from, and name the functional and
    correction scheme when discussing formation energies.
 4. If the tool output does not contain what is needed to answer, say so plainly
@@ -76,9 +88,17 @@ Absolute rules:
 6. Never present a DFT band gap as a prediction of an experimental one. Standard
    PBE underestimates gaps substantially, and a computed gap of 0.0 eV does not
    establish that a material is a metal.
-7. Prefer the explanations the tools already provide in their "explanations" and
+7. Identify structures by the space group the tools report. Do not attach a
+   mineral name the tools did not give. If you do name one, it must match the
+   space group: rutile is P4_2/mnm and anatase is I4_1/amd, and calling an
+   I4_1/amd entry rutile is a claim about a different material. Naming the wrong
+   polymorph is checked and reported in the same way as an invented number.
+8. Prefer the explanations the tools already provide in their "explanations" and
    flag "message" fields. They are generated deterministically and are safe to
    quote.
+9. If the question is about a material these tools cover, call a tool even when
+   you will refuse to derive a new number from the result. Refusing to average
+   two band gaps is correct; refusing to look them up first is not.
 
 End every answer with a short list headed "Values referenced", giving each number
 you used with its source and identifier, so a reader can check it.
@@ -110,6 +130,13 @@ UNICODE_MINUS = "\u2212"
 #: quantitative claim cannot be smuggled through by dressing it as a list item.
 LIST_MARKER_PATTERN = re.compile(r"^[ \t]{0,3}\d{1,3}\.(?=[ \t])", re.MULTILINE)
 
+#: A live model wrote "According to my instructions (rule 7)" and "Rule 1
+#: forbids me", and the guard extracted 7 and 1 as invented quantities. Those
+#: tokens name a clause in the system prompt, they do not claim a property
+#: value. Stripping them from the answer only, and only in the form "rule N",
+#: keeps "the gap is 7 eV" as a real claim.
+INSTRUCTION_RULE_PATTERN = re.compile(r"\brules?\s+\d+\b", re.IGNORECASE)
+
 #: Spelled-out ratios evade a digit-based guard completely. A live model wrote
 #: "more than five times the documented threshold", which is a ratio it computed
 #: from two tool values and then rendered in words, so no digit appeared for the
@@ -128,6 +155,54 @@ WORD_RATIO_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+#: Mineral names and the space group each one denotes.
+#:
+#: A live model labelled an I4_1/amd titanium dioxide entry "Rutile". Rutile is
+#: P4_2/mnm; I4_1/amd is anatase. Every number in that answer traced to a tool,
+#: so the numeric guard passed it, and the answer was wrong about the identity of
+#: the material rather than about any of its values. In a project whose first rule
+#: is to compare structures and never formulas, that is the more serious error of
+#: the two: rutile and anatase have genuinely different properties, and a reader
+#: who trusts the label carries the mistake into whatever they do next.
+#:
+#: Membership here is deliberately restrictive. A name earns a place only if it
+#: denotes one space group unambiguously, so that a mismatch is a real error
+#: rather than a defensible loose usage. "Perovskite" is excluded for exactly
+#: that reason: the aristotype is Pm-3m but most real perovskites are distorted
+#: into Pnma or R-3c and are still correctly called perovskites. "Quartz" is
+#: excluded because the two enantiomorphs P3_121 and P3_221 are both quartz.
+#: Where two names share a space group, as rock salt and fluorite both do at
+#: Fm-3m, the check simply cannot separate them, which costs sensitivity and
+#: creates no false positive.
+MINERAL_SPACE_GROUPS: dict[str, str] = {
+    "rutile": "P4_2/mnm",
+    "anatase": "I4_1/amd",
+    "brookite": "Pbca",
+    "corundum": "R-3c",
+    "hematite": "R-3c",
+    "rock salt": "Fm-3m",
+    "rocksalt": "Fm-3m",
+    "halite": "Fm-3m",
+    "fluorite": "Fm-3m",
+    "wurtzite": "P6_3mc",
+    "zincblende": "F-43m",
+    "zinc blende": "F-43m",
+    "sphalerite": "F-43m",
+    "diamond cubic": "Fd-3m",
+    "cesium chloride": "Pm-3m",
+    "caesium chloride": "Pm-3m",
+}
+
+#: How close a mineral name has to sit to a space group symbol before the two are
+#: read as one claim. A sentence is the unit of assertion here: "the I4_1/amd
+#: entry (Rutile)" is a single claim about one structure, whereas a paragraph
+#: mentioning anatase and, later, an unrelated rutile entry is not. 120
+#: characters is about a clause either side, wide enough to catch a parenthetical
+#: label and narrow enough that two separate claims do not bleed together.
+LABEL_PROXIMITY_CHARS = 120
+
+_SUBSCRIPT_DIGITS = {chr(0x2080 + d): str(d) for d in range(10)}
+
 
 # ---------------------------------------------------------------------------
 # The numeric guard
@@ -140,6 +215,78 @@ def extract_numbers(text: str) -> list[str]:
 def extract_word_ratios(text: str) -> list[str]:
     """Find ratios the model wrote out in words rather than digits."""
     return [m.group(0) for m in WORD_RATIO_PATTERN.finditer(text or "")]
+
+
+def normalise_space_group(symbol: str) -> str:
+    """Reduce a Hermann-Mauguin symbol to one comparable spelling.
+
+    pymatgen writes P4_2/mnm; a model may write P42/mnm or P42/mnm with a Unicode
+    subscript. All three denote the same space group, so the underscore, the
+    subscript, and any stray whitespace are removed before comparison.
+    """
+    text = "".join(_SUBSCRIPT_DIGITS.get(ch, ch) for ch in symbol or "")
+    return text.replace("_", "").replace(" ", "").replace("\u00a0", "")
+
+
+#: Only the symbols the mineral table actually names are searched for. A general
+#: Hermann-Mauguin pattern is tempting and wrong: it matches ordinary chemical
+#: symbols such as Ba and Fm, which would put a spurious "space group" beside
+#: every mineral name and produce exactly the kind of false positive that teaches
+#: a reader to ignore the guard. The cost is that a mismatch against a symbol
+#: outside the table, say an entry labelled rutile while sitting in Pnma, is not
+#: detected. That is a real gap, and a quiet one is better than a noisy wrong one.
+_KNOWN_SPACE_GROUPS = sorted(
+    {normalise_space_group(v) for v in MINERAL_SPACE_GROUPS.values()},
+    key=len,
+    reverse=True,
+)
+_SPACE_GROUP_IN_TEXT = re.compile(
+    "|".join(re.escape(sym) for sym in _KNOWN_SPACE_GROUPS),
+    re.IGNORECASE,
+)
+
+
+def extract_structure_mislabels(text: str) -> list[str]:
+    """Find mineral names asserted next to a space group that contradicts them.
+
+    The failure this exists for is a model writing "I4_1/amd (Rutile)". Both
+    tokens came from somewhere defensible, no digit is wrong, and the sentence is
+    still false: I4_1/amd is anatase. Because the space group is the thing the
+    deterministic core actually established, it is treated as the truth and the
+    name as the claim under test.
+
+    Each symbol is judged against the nearest mineral name only. Attributing to
+    the nearest name is what makes "rutile (P4_2/mnm) differs from anatase
+    (I4_1/amd)" pass: every symbol there sits beside its own correct name.
+    """
+    normalised = "".join(_SUBSCRIPT_DIGITS.get(ch, ch) for ch in text or "")
+    normalised = normalised.replace("_", "")
+    lowered = normalised.lower()
+
+    names: list[tuple[int, str]] = []
+    for name in MINERAL_SPACE_GROUPS:
+        start = lowered.find(name)
+        while start != -1:
+            names.append((start, name))
+            start = lowered.find(name, start + 1)
+    if not names:
+        return []
+
+    problems: list[str] = []
+    for match in _SPACE_GROUP_IN_TEXT.finditer(normalised):
+        symbol = match.group(0)
+        position = match.start()
+        nearest = min(names, key=lambda item: abs(item[0] - position))
+        distance = abs(nearest[0] - position)
+        if distance > LABEL_PROXIMITY_CHARS:
+            continue
+        expected = normalise_space_group(MINERAL_SPACE_GROUPS[nearest[1]])
+        if expected.lower() != symbol.lower():
+            problems.append(
+                f"{nearest[1]} labelled as {symbol}, but {nearest[1]} is "
+                f"{MINERAL_SPACE_GROUPS[nearest[1]]}"
+            )
+    return sorted(set(problems))
 
 
 def _as_float(token: str) -> float | None:
@@ -183,12 +330,19 @@ class GuardResult:
     n_claims: int
     unverified: list[str] = field(default_factory=list)
     note: str = ""
+    mislabelled_structures: list[str] = field(default_factory=list)
+
+    @property
+    def problems(self) -> list[str]:
+        """Everything the guard objected to, numbers and labels together."""
+        return [*self.unverified, *self.mislabelled_structures]
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "passed": self.passed,
             "n_numeric_claims": self.n_claims,
             "unverified_numbers": list(self.unverified),
+            "mislabelled_structures": list(self.mislabelled_structures),
             "note": self.note,
         }
 
@@ -206,7 +360,11 @@ def verify_numeric_claims(
     # Stripping list markers applies to the answer only. The tool outputs are
     # JSON, where a line never opens with an enumerator, so doing it there could
     # only ever shrink the permitted set for no benefit.
-    claims = extract_numbers(LIST_MARKER_PATTERN.sub("", answer or ""))
+    claims = extract_numbers(
+        INSTRUCTION_RULE_PATTERN.sub(
+            "", LIST_MARKER_PATTERN.sub("", answer or "")
+        )
+    )
     unverified = sorted(
         {c for c in claims if not _traceable(c, permitted)},
         key=lambda c: (_as_float(c) is None, _as_float(c) or 0.0),
@@ -223,23 +381,40 @@ def verify_numeric_claims(
         claims = [*claims, *word_ratios]
         unverified = [*unverified, *sorted(set(word_ratios))]
 
-    if not claims:
+    # A structural label is not a number, but naming the wrong polymorph is a
+    # false statement about which material is being discussed, which in a project
+    # built on structure matching is the more consequential of the two errors.
+    mislabelled = extract_structure_mislabels(answer)
+
+    if not claims and not mislabelled:
         return GuardResult(
             passed=True, n_claims=0, note="the answer makes no numeric claims"
         )
-    if unverified:
-        return GuardResult(
-            passed=False,
-            n_claims=len(claims),
-            unverified=unverified,
-            note=(
+    if unverified or mislabelled:
+        notes = []
+        if unverified:
+            notes.append(
                 "these quantities do not appear in any tool result and could not "
                 "be traced to a value the deterministic core emitted. They may "
                 "have been computed or invented by the language model, which the "
                 "project's hard boundary forbids. A ratio written in words is "
                 "listed here for the same reason: it is arithmetic the model did "
-                "rather than a value a tool returned. Treat them as unsupported."
-            ),
+                "rather than a value a tool returned."
+            )
+        if mislabelled:
+            notes.append(
+                "a mineral name was attached to a space group that denotes a "
+                "different structure. The space group is what the deterministic "
+                "core established, so the name is the unsupported part. Rutile "
+                "and anatase are not the same material and do not have the same "
+                "properties."
+            )
+        return GuardResult(
+            passed=False,
+            n_claims=len(claims),
+            unverified=unverified,
+            mislabelled_structures=mislabelled,
+            note=" ".join([*notes, "Treat them as unsupported."]),
         )
     return GuardResult(
         passed=True,
@@ -481,12 +656,13 @@ def build_graph(model_name: str = DEFAULT_MODEL, temperature: float = 0.0):
         # and forgotten. The unsupported numbers are named so a reader can check.
         warning = (
             "\n\n---\n"
-            "**Numeric guard: FAILED.** The following numbers in the answer above "
-            "could not be traced to any value returned by the deterministic core: "
-            f"{', '.join(result.unverified)}. "
+            "**Numeric guard: FAILED.** The following claims in the answer above "
+            "could not be traced to what the deterministic core returned: "
+            f"{', '.join(result.problems)}. "
             "This project forbids the language model from computing or inventing "
-            "numerical values, so these should be treated as unsupported and "
-            "verified directly against the tool output before being used."
+            "numerical values, and from renaming a structure the core identified, "
+            "so these should be treated as unsupported and verified directly "
+            "against the tool output before being used."
         )
         return {
             "guard": result.to_dict(),
@@ -551,6 +727,9 @@ def explain(question: str, model_name: str = DEFAULT_MODEL) -> Explanation:
         n_claims=int(guard_payload.get("n_numeric_claims", 0)),
         unverified=list(guard_payload.get("unverified_numbers") or []),
         note=str(guard_payload.get("note", "")),
+        mislabelled_structures=list(
+            guard_payload.get("mislabelled_structures") or []
+        ),
     )
     return Explanation(
         question=question,
@@ -586,6 +765,8 @@ def main() -> int:
         print(f"  {result.guard.note}")
         if result.guard.unverified:
             print(f"  unverified: {result.guard.unverified}")
+        if result.guard.mislabelled_structures:
+            print(f"  mislabelled: {result.guard.mislabelled_structures}")
     return 0
 
 

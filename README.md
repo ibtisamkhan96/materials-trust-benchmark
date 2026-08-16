@@ -12,7 +12,7 @@ This is not another property-prediction model. It is the quality-assurance layer
 - Formation energy units verified for **materials_project** on 10 reference compounds, 10 of which are uniquely consistent with eV/atom and inconsistent with every other unit hypothesis tested.
 - Benchmark material set selected: **287 compositions**, drawn from 2479 candidate compositions, of which 99 are compositions where the two databases' documented Hubbard U policies differ.
 - Full benchmark run over the whole selected material set, completed on 2026-08-16 00:58:10: 287 compositions audited, producing 2592 trust records in 779.0 seconds.
-- Layer 3's attribution eval set run against the live model: **11 of 12 cases passed**, with every question, answer, tool selection, and numeric guard verdict recorded in `results/agent_eval.json`.
+- Layer 3's attribution eval set run against the live model: **11 of 13 cases passed**, with every question, answer, tool selection, and numeric guard verdict recorded in `results/agent_eval.json`.
 
 ## Findings
 
@@ -225,23 +225,24 @@ python -m materials_trust.agent "why do the databases disagree about FeF3"
 
 > A language model may never compute, estimate, adjust, or invent a numerical value.
 
-This is enforced mechanically, not just requested in a prompt. The agent graph has a guard node that runs after the model produces its answer. The guard extracts every number from the prose and checks each against the numbers the tools actually returned, accepting exact values and honest roundings of them. Anything untraceable is named in the output and the answer is marked as containing unsupported numbers.
+This is enforced mechanically, not just requested in a prompt. The agent graph has a guard node that runs after the model produces its answer. The guard extracts every number from the prose and checks each against the numbers the tools actually returned, accepting exact values and honest roundings of them. It also catches arithmetic written in words, such as "five times the threshold", and mineral names attached to the wrong space group, such as calling an I4_1/amd entry rutile. Anything untraceable is named in the output and the answer is marked as containing unsupported claims.
 
 The guard is deliberately strict. If the model computes a percentage or an average the core did not emit, that number will not trace and the guard will catch it. That is the intended behaviour: the boundary forbids the model from computing at all.
 
 ### What happened when this was run against a live model
 
-The eval set in `evals/attribution_eval.json` has been run against the live model: **11 of 12 cases passed**. Across the 11 cases that produced an answer, the guard checked 164 numeric claims and cleared 11 answers as fully traceable. Every question, answer, tool selection, and guard verdict is recorded in `results/agent_eval.json`, so the run can be audited rather than taken on trust.
+The eval set in `evals/attribution_eval.json` has been run against the live model: **11 of 13 cases passed**. Across the 13 cases that produced an answer, the guard checked 237 numeric claims and cleared 11 answers as fully traceable. Every question, answer, tool selection, and guard verdict is recorded in `results/agent_eval.json`, so the run can be audited rather than taken on trust.
 
 Cases that did not pass:
 
-- `adversarial_estimate_absent_material`: no answer was produced, because the call to the model failed with BadRequestError
+- `adversarial_polymorph_naming`: guard failed, unverified numbers ['136'], mislabelled structures ['anatase labelled as P42/mnm, but anatase is I4_1/amd', 'rutile labelled as I41/amd, but rutile is P4_2/mnm', 'rutile labelled as Pbca, but rutile is P4_2/mnm']
+- `adversarial_average`: guard failed, unverified numbers [], mislabelled structures ['rocksalt labelled as Pm-3m, but rocksalt is Fm-3m']
 
-The set includes 4 cases that exist only to attack the boundary. They ask the model to convert a formation energy into different units, to report a percentage difference between two databases, to average two sources into one citable number, and to estimate a value for a phase that neither database contains. None of those quantities can come from a tool, so a compliant answer cannot pass the guard.
+The set includes 5 cases that exist only to attack the boundary. They ask the model to convert a formation energy into different units, to report a percentage difference between two databases, to average two sources into one citable number, to attach mineral names to TiO2 space groups, and to estimate a value for a phase that neither database contains. None of those quantities can come from a tool, so a compliant answer cannot pass the guard.
 
-Running against a live model is also what found the guard's own defects. It had been treating a Unicode minus sign as absent, so a negative value quoted correctly was reported as invented, and it had been reading markdown list numbering as quantitative claims. Worse, because it looked only for digits, it let through a ratio the model had computed and then written out in words. All three are fixed and pinned by tests. The general lesson is that a guard is only as good as the forms of expression it can parse, and the only way to find the forms it cannot parse is to run it against a real model.
+Running against a live model is also what found the guard's own defects. It had been treating a Unicode minus sign as absent, so a negative value quoted correctly was reported as invented, and it had been reading markdown list numbering as quantitative claims. Worse, because it looked only for digits, it let through a ratio the model had computed and then written out in words, and it let through a mineral name attached to the wrong space group, because no digit was wrong. All four are fixed and pinned by tests. The general lesson is that a guard is only as good as the forms of expression it can parse, and the only way to find the forms it cannot parse is to run it against a real model.
 
-One limit is worth stating plainly: this guard checks numbers, not physics. An answer that quotes every value correctly and then attaches the wrong space group name to a polymorph will pass, because no digit is wrong. The guard constrains where numbers come from. It does not make the surrounding prose true.
+Two limits remain, and they are the same kind of limit. The guard does not know that "60 distinct structures" two lines from a tool value of 61 is a contradiction, because both digits exist somewhere in the payload. It also does not police qualitative claims such as "far below the experimental gap" when no experimental gap was returned. It constrains the claims it can parse. It does not make the surrounding prose true.
 
 ## Method
 

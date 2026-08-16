@@ -13,6 +13,7 @@ import json
 from materials_trust.agent import (
     bound_tool_result,
     extract_numbers,
+    extract_structure_mislabels,
     verify_numeric_claims,
 )
 
@@ -170,6 +171,18 @@ class TestTypographyDoesNotDefeatTheGuard:
         assert not result.passed
         assert "4.7321" in result.unverified
 
+    def test_citing_an_instruction_rule_is_not_a_numeric_claim(self):
+        result = verify_numeric_claims(
+            "According to my instructions (rule 7) I cannot attach mineral names.",
+            [TOOL_OUTPUT],
+        )
+        assert result.passed, result.unverified
+
+    def test_a_real_seven_is_still_caught(self):
+        result = verify_numeric_claims("The gap is 7 eV.", [TOOL_OUTPUT])
+        assert not result.passed
+        assert "7" in result.unverified
+
 
 class TestGuardCatchesRatiosWrittenInWords:
     """A live model computed a ratio and rendered it in words, evading a
@@ -209,6 +222,74 @@ class TestGuardCatchesRatiosWrittenInWords:
             question="is the spread twice the threshold",
         )
         assert result.passed, result.unverified
+
+
+class TestGuardCatchesStructuralMislabels:
+    """A live model labelled an I4_1/amd TiO2 entry Rutile. Rutile is P4_2/mnm;
+    I4_1/amd is anatase. Every number in that answer traced, so a digit-only
+    guard passed a claim about the wrong material.
+
+    The detector is deliberately conservative. It fires only when a mineral name
+    that denotes one space group sits next to a different space group from the
+    same small table. A name used alone, a space group used alone, two correctly
+    paired names in one sentence, and a name far from an unrelated symbol must
+    all pass, or the guard will cry wolf on ordinary explanations.
+    """
+
+    def test_the_observed_failure_is_caught(self):
+        result = verify_numeric_claims(
+            "The I4_1/amd structure (Rutile) has a spread of 0.1994 eV.",
+            [TOOL_OUTPUT],
+        )
+        assert not result.passed
+        assert result.mislabelled_structures
+        assert any("rutile" in m.lower() for m in result.mislabelled_structures)
+
+    def test_a_unicode_subscript_does_not_hide_the_same_error(self):
+        problems = extract_structure_mislabels("Structure: TiO2 I4\u2081/amd (Rutile)")
+        assert problems
+
+    def test_correct_pairings_in_one_sentence_pass(self):
+        result = verify_numeric_claims(
+            "Rutile (P4_2/mnm) differs from anatase (I4_1/amd) in density.",
+            [TOOL_OUTPUT],
+        )
+        assert result.passed, result.problems
+        assert result.mislabelled_structures == []
+
+    def test_a_name_used_alone_is_not_a_mislabelling(self):
+        problems = extract_structure_mislabels(
+            "TiO2 exists as rutile, anatase and brookite."
+        )
+        assert problems == []
+
+    def test_a_space_group_used_alone_is_not_a_mislabelling(self):
+        problems = extract_structure_mislabels(
+            "The P4_2/mnm entry has a gap of 1.8 eV."
+        )
+        assert problems == []
+
+    def test_a_distant_name_does_not_attach_to_an_unrelated_symbol(self):
+        problems = extract_structure_mislabels(
+            "Rutile is one polymorph. "
+            + ("x" * 200)
+            + " The I4_1/amd entry is listed separately."
+        )
+        assert problems == []
+
+    def test_an_element_symbol_is_not_read_as_a_space_group(self):
+        """A general Hermann-Mauguin pattern would match Ba and Fm."""
+        problems = extract_structure_mislabels(
+            "Rutile contains Ba and Ca impurities in this sample."
+        )
+        assert problems == []
+
+    def test_serialisation_includes_the_mislabels(self):
+        payload = verify_numeric_claims(
+            "The I4_1/amd structure (Rutile) is listed.", [TOOL_OUTPUT]
+        ).to_dict()
+        assert payload["passed"] is False
+        assert payload["mislabelled_structures"]
 
 
 class TestToolResultsAreBoundedWithoutDistortion:
@@ -272,3 +353,63 @@ class TestGuardReporting:
         )
         assert result.n_claims == 3
         assert result.passed
+
+
+class TestFailedEvalRunDoesNotDestroyEvidence:
+    """An exhausted credit balance makes every case raise before answering.
+    Overwriting a completed run with that would erase the only live evidence
+    the guard has. The failed run still has to be kept, because it can also be
+    a genuine total regression.
+    """
+
+    def _write_eval_results(self):
+        import importlib.util
+
+        from materials_trust import config
+
+        path = config.PROJECT_ROOT / "scripts" / "verify_agent.py"
+        spec = importlib.util.spec_from_file_location("verify_agent_under_test", path)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        return module.write_eval_results
+
+    def test_an_all_failed_run_is_written_beside_existing_results(
+        self, tmp_path, monkeypatch
+    ):
+        from materials_trust import config
+
+        monkeypatch.setattr(config, "RESULTS_DIR", tmp_path)
+        existing = {"n_cases": 12, "n_passed": 11, "results": [{"passed": True}]}
+        (tmp_path / "agent_eval.json").write_text(
+            json.dumps(existing), encoding="utf-8"
+        )
+        failed = {
+            "n_cases": 12,
+            "n_passed": 0,
+            "results": [
+                {"id": "a", "passed": False, "error": "BadRequestError: billing"},
+                {"id": "b", "passed": False, "error": "BadRequestError: billing"},
+            ],
+        }
+        written = self._write_eval_results()(failed)
+        assert written.name == "agent_eval_failed_run.json"
+        kept = json.loads((tmp_path / "agent_eval.json").read_text(encoding="utf-8"))
+        assert kept == existing
+        saved = json.loads(written.read_text(encoding="utf-8"))
+        assert saved["n_passed"] == 0
+        assert "infrastructure failure" in saved["note"]
+
+    def test_a_real_eval_run_still_overwrites(self, tmp_path, monkeypatch):
+        from materials_trust import config
+
+        monkeypatch.setattr(config, "RESULTS_DIR", tmp_path)
+        (tmp_path / "agent_eval.json").write_text("{}", encoding="utf-8")
+        payload = {
+            "n_cases": 1,
+            "n_passed": 1,
+            "results": [{"id": "a", "passed": True}],
+        }
+        written = self._write_eval_results()(payload)
+        assert written.name == "agent_eval.json"
+        assert json.loads(written.read_text(encoding="utf-8"))["n_passed"] == 1

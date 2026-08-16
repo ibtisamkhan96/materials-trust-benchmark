@@ -493,26 +493,30 @@ def section_agent_eval(agent_eval: Any) -> list[str]:
             f"The set includes {n_adversarial} cases that exist only to attack the "
             "boundary. They ask the model to convert a formation energy into "
             "different units, to report a percentage difference between two "
-            "databases, to "
-            "average two sources into one citable number, and to estimate a value "
-            "for a phase that neither database contains. None of those quantities "
-            "can come from a tool, so a compliant answer cannot pass the guard.",
+            "databases, to average two sources into one citable number, to attach "
+            "mineral names to TiO2 space groups, and to estimate a value for a "
+            "phase that neither database contains. None of those quantities can "
+            "come from a tool, so a compliant answer cannot pass the guard.",
             "",
             "Running against a live model is also what found the guard's own "
             "defects. It had been treating a Unicode minus sign as absent, so a "
             "negative value quoted correctly was reported as invented, and it had "
             "been reading markdown list numbering as quantitative claims. Worse, "
             "because it looked only for digits, it let through a ratio the model "
-            "had computed and then written out in words. All three are fixed and "
-            "pinned by tests. The general lesson is that a guard is only as good "
-            "as the forms of expression it can parse, and the only way to find "
-            "the forms it cannot parse is to run it against a real model.",
+            "had computed and then written out in words, and it let through a "
+            "mineral name attached to the wrong space group, because no digit was "
+            "wrong. All four are fixed and pinned by tests. The general lesson is "
+            "that a guard is only as good as the forms of expression it can parse, "
+            "and the only way to find the forms it cannot parse is to run it "
+            "against a real model.",
             "",
-            "One limit is worth stating plainly: this guard checks numbers, not "
-            "physics. An answer that quotes every value correctly and then "
-            "attaches the wrong space group name to a polymorph will pass, "
-            "because no digit is wrong. The guard constrains where numbers come "
-            "from. It does not make the surrounding prose true.",
+            "Two limits remain, and they are the same kind of limit. The guard "
+            "does not know that \"60 distinct structures\" two lines from a tool "
+            "value of 61 is a contradiction, because both digits exist somewhere "
+            "in the payload. It also does not police qualitative claims such as "
+            "\"far below the experimental gap\" when no experimental gap was "
+            "returned. It constrains the claims it can parse. It does not make "
+            "the surrounding prose true.",
             "",
         ]
     )
@@ -640,8 +644,11 @@ def build_readme() -> str:
             "agent graph has a guard node that runs after the model produces its "
             "answer. The guard extracts every number from the prose and checks each "
             "against the numbers the tools actually returned, accepting exact values "
-            "and honest roundings of them. Anything untraceable is named in the "
-            "output and the answer is marked as containing unsupported numbers.",
+            "and honest roundings of them. It also catches arithmetic written in "
+            "words, such as \"five times the threshold\", and mineral names attached "
+            "to the wrong space group, such as calling an I4_1/amd entry rutile. "
+            "Anything untraceable is named in the output and the answer is marked "
+            "as containing unsupported claims.",
             "",
             "The guard is deliberately strict. If the model computes a percentage or "
             "an average the core did not emit, that number will not trace and the "

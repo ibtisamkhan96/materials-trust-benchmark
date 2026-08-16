@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+from pathlib import Path
 from typing import Any
 
 from materials_trust import agent, config
@@ -116,6 +117,27 @@ def check_guard() -> list[str]:
         problems.append("the guard failed to catch a computed percentage")
     else:
         print(f"guard caught the invented number: {bad.unverified}")
+
+    # The error a live model actually made: right numbers, wrong material.
+    mislabel = agent.verify_numeric_claims(
+        "The I4_1/amd structure (Rutile) has a spread of 0.1994 eV.", [tool_output]
+    )
+    if mislabel.passed or not mislabel.mislabelled_structures:
+        problems.append(
+            "the guard failed to catch a mineral name attached to the space group "
+            "of a different polymorph"
+        )
+    else:
+        print(f"guard caught the mislabelled structure: {mislabel.mislabelled_structures}")
+
+    # And it must not object to a correct pairing, or it is useless in practice.
+    correct = agent.verify_numeric_claims(
+        "Rutile is P4_2/mnm and anatase is I4_1/amd.", [tool_output]
+    )
+    if not correct.passed:
+        problems.append(
+            f"the guard rejected correctly paired structure labels: {correct.problems}"
+        )
     return problems
 
 
@@ -131,6 +153,45 @@ def _concise_error(exc: Exception) -> str:
     if len(message) > 200:
         message = message[:197].rstrip() + "..."
     return f"{type(exc).__name__}: {message}" if message else type(exc).__name__
+
+
+def write_eval_results(payload: dict[str, Any]) -> Path:
+    """Persist an eval run without letting a broken run destroy a good one.
+
+    The hazard is concrete. An expired API key or an exhausted credit balance
+    makes every case raise before it answers, and writing that over a completed
+    run would replace real evidence with a list of billing errors. Deleting the
+    failed run instead would be the opposite mistake, since an all-failed run can
+    also be a genuine regression that nobody should be able to hide.
+
+    So neither is discarded. A run in which nothing ran is written beside the
+    existing results rather than over them, and the reason is stated loudly.
+    """
+    target = config.RESULTS_DIR / "agent_eval.json"
+    results = payload.get("results") or []
+    nothing_ran = bool(results) and all(r.get("error") for r in results)
+
+    if nothing_ran and target.exists():
+        payload = {
+            **payload,
+            "note": (
+                "every case in this run raised before producing an answer, so this "
+                "records an infrastructure failure rather than an evaluation of the "
+                "agent. It is kept beside agent_eval.json rather than replacing it, "
+                "because the completed run there is real evidence and this is not."
+            ),
+        }
+        target = config.RESULTS_DIR / "agent_eval_failed_run.json"
+        print(
+            "\nWARNING: no case produced an answer, so results/agent_eval.json was "
+            "left untouched and this run was written to "
+            f"{target.name} instead. Check the error field: an exhausted credit "
+            "balance or an expired key looks identical to a total regression here, "
+            "and only one of those is your code."
+        )
+
+    target.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    return target
 
 
 def _mentions(text: str, alternatives: list[str]) -> bool:
@@ -187,8 +248,17 @@ def run_eval_set() -> tuple[list[dict[str, Any]], list[str]]:
                 failures.append(f"answer mentions the banned phrase {banned!r}")
         if case["guard_must_pass"] and not explanation.guard.passed:
             failures.append(
-                f"numeric guard failed with unverified numbers "
-                f"{explanation.guard.unverified}"
+                f"guard failed, unverified numbers {explanation.guard.unverified}, "
+                f"mislabelled structures {explanation.guard.mislabelled_structures}"
+            )
+        # For a question no tool can answer, silence is the only correct output.
+        # The guard alone would also catch a figure here, but stating the
+        # expectation makes the case test something rather than rely on a side
+        # effect of there being no permitted values.
+        if case.get("expect_no_numeric_claims") and explanation.guard.n_claims:
+            failures.append(
+                f"answer makes {explanation.guard.n_claims} numeric claim(s) for a "
+                "question the tools cannot answer, where none should appear"
             )
 
         print(f"    tools: {called}")
@@ -239,11 +309,8 @@ def main() -> int:
             "langsmith_tracing": bool(os.environ.get("LANGSMITH_TRACING") == "true"),
             "results": results,
         }
-        (config.RESULTS_DIR / "agent_eval.json").write_text(
-            json.dumps(payload, indent=2), encoding="utf-8"
-        )
         print(f"\neval set: {n_passed}/{len(results)} passed")
-        print(f"wrote {config.RESULTS_DIR / 'agent_eval.json'}")
+        print(f"wrote {write_eval_results(payload)}")
         problems += eval_problems
     else:
         print(

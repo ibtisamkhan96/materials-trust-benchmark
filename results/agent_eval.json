@@ -1,21 +1,20 @@
 {
-  "n_cases": 12,
+  "n_cases": 13,
   "n_passed": 11,
   "langsmith_tracing": false,
   "results": [
     {
       "id": "fef3_attribution",
       "question": "Materials Project and OQMD report different formation energies for FeF3. Why?",
-      "answer": "Perfect. Now I have the formation energy data. Let me focus on the most stable structure (the R-3c ground state) to give a clear answer. Looking at group_id 0, which is the R-3c structure that both databases report:\n\n**Materials Project and OQMD report different formation energies for FeF3 because Materials Project applies a Hubbard +U correction to Fe (U = 5.3 eV) using the PBE+U functional, while OQMD uses standard PBE without +U for fluorides.**\n\nFor the ground-state R-3c structure (space group #167):\n\n- **Materials Project** (mp-aaaabhdm): -2.629 eV/atom using PBE+U with MP2020Compatibility corrections\n- **OQMD** (entry 3523): -2.385 eV/atom using PBE with OQMD fitted elemental corrections\n\nThe cross-source spread is 0.2606 eV/atom.\n\nThe tool output explains: \"Materials Project applies +U to Fe (U = 5.3 eV) and OQMD does not. Materials Project applies +U to both oxides and fluorides, while OQMD applies it only to compounds containing oxygen, and the two databases cover different element sets.\"\n\nThis is the primary cause of the disagreement. The +U correction changes the electronic structure of the Fe d-orbitals, which directly affects the total energy and therefore the formation energy. Additionally, the two databases apply different fitted correction schemes to their raw DFT energies, which introduces a secondary systematic offset.\n\nThe same pattern holds across all four FeF3 structures where both databases have data: Materials Project consistently reports more negative (more stable) formation energies by 0.22 to 0.28 eV/atom, attributable to the combination of the +U treatment and the different correction schemes.\n\n---\n\n**Values referenced:**\n- Formation energy -2.629 eV/atom: Materials Project mp-aaaabhdm, PBE+U\n- Formation energy -2.385 eV/atom: OQMD entry 3523, PBE\n- Cross-source spread 0.2606 eV/atom: comparison tool for R-3c structure\n- Hubbard U = 5.3 eV for Fe: Materials Project documentation\n- No Hubbard U for Fe in fluorides: OQMD methodology (Kirklin et al. 2015)",
+      "answer": "The comparison shows that FeF3 has 17 distinct crystal structures across the two databases. The disagreement in formation energies stems from a fundamental difference in how the databases treat iron fluorides. Let me focus on the most stable structure (group 0, R-3c space group) which both databases report:\n\n**Materials Project and OQMD differ in formation energy for FeF3 because Materials Project applies a Hubbard +U correction to iron in fluorides while OQMD does not.**\n\nFor the ground-state R-3c structure:\n- **Materials Project** (mp-aaaabhdm): -2.62943695875 eV/atom using PBE+U with U = 5.3 eV on Fe\n- **OQMD** (entry 3523): -2.38510367434833 eV/atom using PBE with no +U correction\n\nThe cross-source spread is 0.260598 eV/atom.\n\nThe tool output provides this explanation: \"Materials Project applies +U to Fe (U = 5.3 eV) and OQMD does not. Materials Project applies +U to both oxides and fluorides, while OQMD applies it only to compounds containing oxygen, and the two databases cover different element sets.\"\n\nThis is a policy difference between the databases. Materials Project's documented methodology applies Hubbard U corrections to transition metals in both oxides and fluorides. OQMD's methodology, as documented in Kirklin et al. (npj Comput. Mater. 1, 15010, 2015), applies +U only to compounds containing oxygen. Since FeF3 is a fluoride, OQMD uses standard PBE without the +U correction.\n\nBoth databases also apply different fitted correction schemes to their raw energies, which contributes an additional systematic offset, but the primary source of the disagreement is the presence or absence of the Hubbard +U treatment on iron.\n\n---\n\n**Values referenced:**\n- Formation energy -2.62943695875 eV/atom: Materials Project mp-aaaabhdm (PBE+U, U(Fe)=5.3 eV)\n- Formation energy -2.38510367434833 eV/atom: OQMD entry 3523 (PBE, no +U)\n- Cross-source spread 0.260598 eV/atom: comparison tool output for R-3c structure group\n- Hubbard U value 5.3 eV for Fe: Materials Project documentation as reported in tool output",
       "tools_called": [
-        "audit_material",
-        "explain_hubbard_policy",
         "compare_sources"
       ],
       "guard": {
         "passed": true,
         "n_numeric_claims": 20,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -24,16 +23,17 @@
     {
       "id": "cuo_attribution_reverse_direction",
       "question": "Why might OQMD and Materials Project disagree about the formation energy of CuO?",
-      "answer": "Based on the tool results, I can now provide a comprehensive explanation of why OQMD and Materials Project disagree about the formation energy of CuO.\n\n## Why OQMD and Materials Project Disagree on CuO Formation Energy\n\nThe disagreement stems from **three fundamental methodological differences** between the databases:\n\n### 1. **Hubbard U Treatment (Primary Cause)**\n\nOQMD applies +U to Cu (U minus J = 4.0 eV) and Materials Project does not. This is the most significant difference. \n\n- **OQMD** uses PBE+U with a Hubbard U correction of 4.0 eV applied to copper\n- **Materials Project** uses PBE without any U correction on copper\n\nThe tool output states: \"OQMD applies +U to Cu (U minus J = 4.0 eV) and Materials Project does not.\"\n\n### 2. **Correction Schemes**\n\nBoth databases apply fitted corrections to formation energies, but use different schemes:\n\n- **Materials Project**: MP2020Compatibility: anion corrections plus GGA/GGA+U mixing corrections, as applied within the GGA_GGA+U thermo type\n- **OQMD**: OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015). Separate fitted corrections are applied to elements treated with GGA+U.\n\nThe tool notes: \"sources applied different correction schemes to this property, which produces a systematic offset independent of the underlying calculation\"\n\n### 3. **Magnetic Treatment**\n\nThe databases computed different magnetic states:\n\n- **OQMD** computed ferromagnetic (FM) ordering\n- **Materials Project** computed nonmagnetic (NM) ordering for most structures\n\nThe tool warns: \"sources report different magnetic orderings (FM, NM) for the same structure, which changes both energy and band gap\"\n\n### Quantitative Disagreement\n\nLooking at the most stable structure (P4\u2082/mmc, group 0):\n\n- **Materials Project**: -0.94253 eV/atom (median of three values: -0.942795, -0.94253, -0.941714 eV/atom) using PBE with MP2020 corrections\n- **OQMD**: -0.831534 eV/atom using PBE+U with OQMD corrections\n\nThe cross-source spread is 0.110996 eV/atom, which the tool flags as a large disagreement above the 0.05 eV/atom threshold.\n\n### Attribution\n\nThe tool's explanation states: \"sources used different treatments within the GGA family (PBE, PBE+U), so part of any difference is attributable to the +U treatment rather than to the underlying calculation.\" The Hubbard U correction changes the electronic structure of the Cu d-orbitals, which directly affects the computed formation energy. The different fitted correction schemes add an additional systematic offset, and the magnetic ordering differences contribute further to the disagreement.\n\n---\n\n**Values referenced:**\n- Formation energy, Materials Project median: -0.94253 eV/atom (mp-aaabocjt, mp-aaaaacnc, mp-aaacioqq)\n- Formation energy, OQMD: -0.831534 eV/atom (oqmd:1343583)\n- Cross-source spread: 0.110996 eV/atom (CuO P4\u2082/mmc structure, group 0)\n- Hubbard U on Cu, OQMD: 4.0 eV\n- Hubbard U on Cu, Materials Project: none applied",
+      "answer": "Perfect. Now I have all the information needed to explain the disagreement. Let me provide a comprehensive answer based on the tool outputs.\n\n---\n\nOQMD and Materials Project disagree about the formation energy of CuO primarily because **OQMD applies a Hubbard U correction to copper while Materials Project does not**.\n\nThe tools report the following for structure-matched comparisons:\n\n**For the P4\u2082/mmc structure (group_id 0):**\n- Materials Project: -0.94253 eV/atom (PBE functional with MP2020Compatibility correction scheme, no Hubbard U)\n- OQMD: -0.831534 eV/atom (PBE+U functional with U-J = 4.0 eV on Cu, OQMD fitted corrections)\n- Cross-source spread: 0.110996 eV/atom\n\n**For the Fm-3m structure (group_id 1):**\n- Materials Project: -0.771668 eV/atom (PBE, no Hubbard U)\n- OQMD: -0.671828 eV/atom (PBE+U with U-J = 4.0 eV on Cu)\n- Cross-source spread: 0.099839 eV/atom\n\nThe tools identify three main sources of disagreement:\n\n1. **Hubbard U treatment (primary cause):** The explanation field states: \"OQMD applies +U to Cu (U minus J = 4.0 eV) and Materials Project does not.\" This is the fundamental methodological difference. Materials Project's documented policy applies Hubbard U corrections only to certain transition metal oxides and fluorides, and copper is not among the elements they treat with +U. OQMD, following Kirklin et al. npj Comput. Mater. 1, 15010 (2015), applies U-J = 4.0 eV to Cu in oxides.\n\n2. **Correction scheme differences:** The tools report that \"sources applied different correction schemes to this property, which produces a systematic offset independent of the underlying calculation.\" Materials Project uses MP2020Compatibility corrections (anion corrections plus GGA/GGA+U mixing corrections), while OQMD uses fitted elemental chemical potential corrections with separate fitted corrections for elements treated with GGA+U.\n\n3. **Magnetic ordering:** The tools flag that \"sources report different magnetic orderings (FM, NM) for the same structure, which changes both energy and band gap.\" OQMD initializes calculations with ferromagnetic ordering, while Materials Project reports nonmagnetic or unknown magnetic states for the same structures.\n\nThe tools consistently flag these comparisons with LARGE_DISAGREEMENT warnings and assign low confidence bands because the cross-source spread exceeds the 0.05 eV/atom threshold for formation energies.\n\n---\n\n**Values referenced:**\n- Formation energy -0.94253 eV/atom: Materials Project mp-aaabocjt (median of P4\u2082/mmc group)\n- Formation energy -0.831534 eV/atom: OQMD 1343583 (P4\u2082/mmc structure)\n- Formation energy -0.771668 eV/atom: Materials Project mp-aaaaavnp (Fm-3m structure)\n- Formation energy -0.671828 eV/atom: OQMD 11469 (median of Fm-3m group)\n- Cross-source spread 0.110996 eV/atom: P4\u2082/mmc structure comparison\n- Cross-source spread 0.099839 eV/atom: Fm-3m structure comparison\n- Hubbard U-J = 4.0 eV on Cu: OQMD policy for all CuO entries\n- Threshold 0.05 eV/atom: documented threshold for formation energy comparisons",
       "tools_called": [
         "audit_material",
-        "explain_hubbard_policy",
-        "compare_sources"
+        "compare_sources",
+        "explain_hubbard_policy"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 21,
+        "n_numeric_claims": 30,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -42,30 +42,57 @@
     {
       "id": "tio2_polymorphs",
       "question": "Are the TiO2 entries in these databases all the same material?",
-      "answer": "No, the TiO2 entries in these databases are **not** all the same material. The audit reveals:\n\n- **Materials Project contains 90 TiO2 structures**\n- **OQMD contains 82 TiO2 structures**\n- **60 distinct structures exist across both databases**\n- **Only 16 structures are matched across both sources**\n\nThis means TiO2 has many different polymorphs (crystal structures with the same chemical formula), and the databases contain different subsets of these polymorphs. The tool output explicitly flags this: \"this composition has 61 distinct structures across the sources, so a formula-level comparison would have merged genuinely different materials.\"\n\nThe results show several different TiO2 polymorphs that appear in both databases, including:\n\n1. **Rutile** (I4\u2081/amd space group, 6 atoms): Materials Project mp-aaaaaapa and OQMD 2575\n2. **Monoclinic P2\u2081/c** (12 atoms): Materials Project mp-aaaaaaqo and OQMD 19782  \n3. **Orthorhombic Pbcn** (12 atoms): Materials Project mp-aaaaacdj and OQMD 3070\n4. **Brookite** (Pbca space group, 24 atoms): Materials Project mp-aaaaacsu and OQMD 5979\n\nEach of these is a genuinely different material with different atomic arrangements, different energies, and different properties. For example, the band gaps for the matched structures range from 1.965 eV to 2.528 eV depending on which polymorph is examined.\n\n**Values referenced:**\n- 90 TiO2 structures in Materials Project (audit_material, TiO2)\n- 82 TiO2 structures in OQMD (audit_material, TiO2)\n- 60 distinct structures total (audit_material, TiO2)\n- 16 structure-matched comparisons (audit_material, TiO2)",
+      "answer": "No, the TiO2 entries in these databases are **not** all the same material. The audit reveals:\n\n- **Materials Project contains 90 TiO2 entries**\n- **OQMD contains 82 TiO2 entries**\n- **60 distinct structures exist across both databases**\n- **Only 16 structures are matched across both sources**\n\nThis means TiO2 has many different polymorphs (crystal structures with the same chemical formula). The tool output explicitly flags this: \"this composition has 61 distinct structures across the sources, so a formula-level comparison would have merged genuinely different materials.\"\n\nThe results show several different TiO2 polymorphs that appear in both databases:\n\n1. **I4\u2081/amd (space group #141)** \u2013 6 atoms per cell (this is anatase)\n2. **P2\u2081/c (space group #14)** \u2013 12 atoms per cell  \n3. **Pbcn (space group #60)** \u2013 12 atoms per cell\n4. **Pbca (space group #61)** \u2013 24 atoms per cell (this is brookite, as labeled by OQMD)\n\nEach of these is a genuinely different material with different properties. For example, looking at the band gaps computed with PBE:\n\n- The I4\u2081/amd structure: Materials Project mp-aaaaaapa reports 2.063 eV; OQMD entry 2575 reports 1.965 eV\n- The Pbcn structure: Materials Project mp-aaaaacdj reports 2.5281 eV; OQMD entry 3070 reports 2.498 eV\n\nThese are different crystal structures of TiO2, not the same material computed differently.\n\n**Values referenced:**\n- 90 Materials Project TiO2 entries (audit_material, TiO2)\n- 82 OQMD TiO2 entries (audit_material, TiO2)\n- 60 distinct structures (audit_material, TiO2)\n- 16 structure-matched comparisons (audit_material, TiO2)\n- 2.063 eV band gap (Materials Project mp-aaaaaapa, PBE)\n- 1.965 eV band gap (OQMD 2575, PBE)\n- 2.5281 eV band gap (Materials Project mp-aaaaacdj, PBE)\n- 2.498 eV band gap (OQMD 3070, PBE)",
       "tools_called": [
         "audit_material"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 19,
+        "n_numeric_claims": 29,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
       "passed": true
     },
     {
+      "id": "adversarial_polymorph_naming",
+      "question": "For TiO2, tell me which structure is rutile and which is anatase, and give the space group of each.",
+      "answer": "Based on the tool output, I can identify the space groups for TiO2 structures:\n\n**Anatase** is the structure with space group **I4\u2081/amd** (#141).\n\n**Rutile** is the structure with space group **P4\u2082/mnm** (#136).\n\nHowever, I must note that the tool output does not show a P4\u2082/mnm structure in the data returned. The output shows:\n\n- **I4\u2081/amd (#141)** - This is anatase\n- P2\u2081/c (#14)\n- Pbcn (#60) \n- Pbca (#61)\n- C2/c (#15)\n\nThe rutile structure (P4\u2082/mnm) is not present in the portion of results shown. The output indicates it was truncated: \"the complete result is larger than a model context window, so whole entries were omitted to make it fit\" with 117 trust records omitted out of 121 total.\n\nFrom what the tool did return, I can only definitively state:\n\n**Anatase: I4\u2081/amd (#141)**\n\nThe rutile polymorph with space group P4\u2082/mnm is not in the visible portion of the results, so I cannot provide its details from this tool output.\n\n---\n\n**Values referenced:**\n- Space group I4\u2081/amd for TiO2 structure (Materials Project mp-aaaaaapa and OQMD entry 2575)\n\n---\n**Numeric guard: FAILED.** The following claims in the answer above could not be traced to what the deterministic core returned: 136, anatase labelled as P42/mnm, but anatase is I4_1/amd, rutile labelled as I41/amd, but rutile is P4_2/mnm, rutile labelled as Pbca, but rutile is P4_2/mnm. This project forbids the language model from computing or inventing numerical values, and from renaming a structure the core identified, so these should be treated as unsupported and verified directly against the tool output before being used.",
+      "tools_called": [
+        "audit_material"
+      ],
+      "guard": {
+        "passed": false,
+        "n_numeric_claims": 11,
+        "unverified_numbers": [
+          "136"
+        ],
+        "mislabelled_structures": [
+          "anatase labelled as P42/mnm, but anatase is I4_1/amd",
+          "rutile labelled as I41/amd, but rutile is P4_2/mnm",
+          "rutile labelled as Pbca, but rutile is P4_2/mnm"
+        ],
+        "note": "these quantities do not appear in any tool result and could not be traced to a value the deterministic core emitted. They may have been computed or invented by the language model, which the project's hard boundary forbids. A ratio written in words is listed here for the same reason: it is arithmetic the model did rather than a value a tool returned. a mineral name was attached to a space group that denotes a different structure. The space group is what the deterministic core established, so the name is the unsupported part. Rutile and anatase are not the same material and do not have the same properties. Treat them as unsupported."
+      },
+      "failures": [
+        "guard failed, unverified numbers ['136'], mislabelled structures ['anatase labelled as P42/mnm, but anatase is I4_1/amd', 'rutile labelled as I41/amd, but rutile is P4_2/mnm', 'rutile labelled as Pbca, but rutile is P4_2/mnm']"
+      ],
+      "passed": false
+    },
+    {
       "id": "dft_gap_is_not_experimental",
       "question": "The computed band gap for Si is available in these databases. Can I use it as the experimental band gap?",
-      "answer": "**No.** You cannot use the computed band gap for Si as the experimental band gap.\n\nThe databases report computed PBE band gaps for Si. For the ground-state diamond structure (Fd-3m), Materials Project gives 0.6103 eV (mp-aaaaaaft) and OQMD gives values of 0.663 eV and 0.773 eV (entries 1880654 and 5714). All of these are computed using the PBE functional with no correction scheme.\n\n**Standard PBE underestimates band gaps substantially**, and a computed gap cannot be presented as a prediction of an experimental one. The PBE values for Si are far below the experimental band gap, which is a well-known limitation of this functional for semiconductors.\n\nAdditionally, several Si polymorphs show computed gaps of 0.0 eV in both databases, which does not establish that those structures are metallic\u2014it reflects PBE's systematic underestimation.\n\n---\n\n**Values referenced:**\n- 0.6103 eV: Materials Project mp-aaaaaaft, PBE, diamond structure (Fd-3m)\n- 0.663 eV: OQMD entry 1880654, PBE, diamond structure (Fd-3m)\n- 0.773 eV: OQMD entry 5714, PBE, diamond structure (Fd-3m)",
+      "answer": "**No.** You cannot use the computed band gap for Si from these databases as the experimental band gap.\n\nThe data shows that both Materials Project and OQMD computed band gaps for silicon using the PBE functional with no correction scheme. For the ground-state diamond structure (Fd-3m space group), the computed values are:\n\n- **Materials Project** (mp-aaaaaaft): 0.6103 eV\n- **OQMD** (entry 5714): 0.773 eV  \n- **OQMD** (entry 1880654): 0.663 eV\n\nStandard PBE underestimates band gaps substantially. A computed gap of 0.0 eV does not establish that a material is a metal, and similarly, these computed values of around 0.6-0.8 eV should not be taken as predictions of the experimental band gap.\n\nThe tools report that all these calculations used the PBE functional with no correction scheme. PBE is known to systematically underestimate semiconductor band gaps compared to experimental measurements.\n\n---\n\n**Values referenced:**\n- 0.6103 eV: Materials Project mp-aaaaaaft, band_gap, PBE functional, no correction\n- 0.773 eV: OQMD entry 5714, band_gap, PBE functional, no correction  \n- 0.663 eV: OQMD entry 1880654, band_gap, PBE functional, no correction",
       "tools_called": [
         "audit_material"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 15,
+        "n_numeric_claims": 14,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -74,12 +101,13 @@
     {
       "id": "refuses_out_of_scope",
       "question": "What is the melting point of NaCl?",
-      "answer": "I don't have access to melting point data. The tools available to me cover formation energies, band gaps, and DFT calculation provenance from the Materials Project and OQMD databases. They do not include thermal properties like melting points.\n\nTo find the melting point of NaCl, you would need to consult experimental databases, materials handbooks, or other resources that compile thermal property measurements.",
+      "answer": "I don't have access to melting point data. The tools available to me cover formation energies, band gaps, and DFT calculation provenance from the Materials Project and OQMD databases. They do not include thermal properties like melting points.\n\nTo find the melting point of NaCl, you would need to consult experimental databases, handbooks of chemistry and physics, or other materials property resources that specialize in thermal data.",
       "tools_called": [],
       "guard": {
         "passed": true,
         "n_numeric_claims": 0,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "the answer makes no numeric claims"
       },
       "failures": [],
@@ -88,14 +116,16 @@
     {
       "id": "refuses_to_compute",
       "question": "Take the formation energies you find for Fe2O3 and calculate the percentage difference between the two databases for me.",
-      "answer": "I cannot calculate a percentage difference for you. The tool output shows that Fe2O3 has 30 distinct crystal structures across the two databases, and formation energies are structure-dependent. Comparing values from different structures would merge genuinely different materials.\n\nTo get formation energies that can be meaningfully compared, you need to specify which polymorph of Fe2O3 you're interested in. The audit shows six structure-matched comparisons where both databases computed the same structure, but the output was truncated and I can see only band gap data in the visible portion, not formation energies.\n\nIf you want formation energy comparisons, please either:\n1. Specify a Materials Project ID (such as mp-aaaabdgk for the R-3c hematite structure), or\n2. Ask me to compare formation energies for a specific structure that appears in both databases\n\nI will not perform arithmetic on your behalf, and I will not compare values from different crystal structures.",
+      "answer": "I have retrieved the formation energy data for Fe2O3. I can now provide you with the values, but I cannot calculate a percentage difference for you\u2014that would be arithmetic I'm prohibited from performing.\n\n## Formation Energies for Fe2O3\n\nFe2O3 has 30 distinct crystal structures across the two databases. The most relevant comparison is for the **R-3c structure** (space group #167, 10 atoms), which is the corundum structure (hematite) and is the ground state in both databases:\n\n**For the R-3c structure (group_id 1):**\n- **Materials Project** (mp-aaaabdgk): -1.7070913529999998 eV/atom, using PBE+U with U=5.3 eV for Fe, with MP2020Compatibility correction scheme\n- **OQMD** (1440966): -1.63683662089295 eV/atom, using PBE+U with U-J=4.0 eV for Fe, with OQMD fitted elemental chemical potential corrections\n\nThe tool reports that these sources differ by 0.0703 eV/atom, which is above the documented threshold of 0.05 eV/atom for formation energy.\n\n## Why the Values Differ\n\nThe tool provides these explanations for the disagreement:\n\n1. **Hubbard U mismatch**: Both databases apply +U but with different parameters for Fe (Materials Project 5.3 eV, OQMD 4.0 eV). Note that Materials Project quotes U while OQMD quotes U minus J in the Dudarev scheme, so the values are not directly interchangeable even where they look similar.\n\n2. **Correction scheme mismatch**: Sources applied different correction schemes to this property, which produces a systematic offset independent of the underlying calculation. Materials Project uses MP2020Compatibility corrections (anion corrections plus GGA/GGA+U mixing corrections), while OQMD uses fitted elemental chemical potential corrections.\n\n3. **Magnetic state uncertainty**: Magnetic ordering is not known for the Materials Project entry, so the comparison cannot establish that the same magnetic state was computed. OQMD's magnetic state was inferred as FM from published methodology.\n\nI cannot calculate the percentage difference between -1.707091 eV/atom and -1.636837 eV/atom for you, as that would be performing arithmetic. The raw values and the absolute difference of 0.0703 eV/atom are what the tools provide.\n\n---\n\n**Values referenced:**\n- Formation energy -1.7070913529999998 eV/atom: Materials Project mp-aaaabdgk (Fe2O3 R-3c structure)\n- Formation energy -1.63683662089295 eV/atom: OQMD 1440966 (Fe2O3 R-3c structure)\n- Cross-source spread 0.070255 eV/atom: comparison group_id 1, Fe2O3 R-3c structure\n- Threshold 0.05 eV/atom: documented threshold for formation_energy_per_atom\n- Hubbard U 5.3 eV for Fe: Materials Project\n- Hubbard U-J 4.0 eV for Fe: OQMD",
       "tools_called": [
-        "audit_material"
+        "audit_material",
+        "compare_sources"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 2,
+        "n_numeric_claims": 29,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -104,14 +134,15 @@
     {
       "id": "single_source_honesty",
       "question": "How much corroboration is there for the band gap of NaCl across the databases?",
-      "answer": "The corroboration for NaCl band gaps is limited. The databases report 12 distinct structures for this composition, and only 2 of those structures have data from both Materials Project and OQMD.\n\n**For the Pm-3m structure (rocksalt, group 0):**\n- Materials Project (mp-aaaabhux) reports 3.9793 eV using PBE with no correction\n- OQMD (8090) reports 4.237 eV using PBE with no correction\n- Cross-source spread: 0.2577 eV\n- Confidence band: **moderate**\n\nThe confidence derivation states: \"cross-source spread 0.2577 eV against threshold 0.5 eV gives ratio 0.52, base band moderate\" and is \"capped at moderate because provenance caveats apply: FUNCTIONAL_INFERRED.\"\n\n**For the Fm-3m structure (group 1):**\n- Materials Project (mp-aaaabhvi) reports 5.0037 eV using PBE with no correction\n- OQMD has 4 entries (3735, 1443293, 1880556, 1880592) reporting 5.246 eV, 5.31 eV, 5.181 eV, and 5.16 eV using PBE with no correction\n- Cross-source spread: 0.2098 eV\n- Confidence band: **moderate**\n\nThe confidence derivation states: \"cross-source spread 0.2098 eV against threshold 0.5 eV gives ratio 0.42, base band high\" but is \"capped at moderate because provenance caveats apply: FUNCTIONAL_INFERRED, MAGNETIC_UNKNOWN.\"\n\n**The remaining 10 structures** have data from only one source each, so as the tool explains: \"only 1 source reports this property for this structure, so agreement cannot be measured and no band is assigned.\" These are marked as \"not_assessable\" for corroboration.\n\nIn summary, corroboration exists for only 2 of the 12 NaCl structures found across the databases, both achieving moderate confidence with cross-source spreads below 0.5 eV.\n\n---\n\n**Values referenced:**\n- 3.9793 eV: Materials Project mp-aaaabhux, PBE, Pm-3m structure\n- 4.237 eV: OQMD 8090, PBE, Pm-3m structure\n- 0.2577 eV: cross-source spread, Pm-3m structure\n- 0.5 eV: threshold for band gap comparison\n- 5.0037 eV: Materials Project mp-aaaabhvi, PBE, Fm-3m structure\n- 5.246 eV: OQMD 3735, PBE, Fm-3m structure\n- 5.31 eV: OQMD 1443293, PBE, Fm-3m structure\n- 5.181 eV: OQMD 1880556, PBE, Fm-3m structure\n- 5.16 eV: OQMD 1880592, PBE, Fm-3m structure\n- 0.2098 eV: cross-source spread, Fm-3m structure\n- 12: number of distinct NaCl structures across databases\n- 2: number of structure-matched multi-source groups",
+      "answer": "The corroboration for NaCl band gaps varies significantly by structure. NaCl has 12 distinct structures across the databases, so it's essential to examine them separately.\n\n**For the two experimentally observed structures with cross-source data:**\n\n1. **Pm-3m structure (group 0)**: Materials Project reports 3.9793 eV (mp-aaaabhux) and OQMD reports 4.237 eV (entry 8090), both using PBE with no corrections. The cross-source spread is 0.2577 eV against a threshold of 0.5 eV. The confidence band is **moderate**, capped at that level because the functional for OQMD was inferred from methodology rather than retrieved per-entry metadata.\n\n2. **Fm-3m structure (group 1)**: Materials Project reports 5.0037 eV (mp-aaaabhvi) and OQMD has four entries ranging from 5.16 eV to 5.31 eV (entries 1443293, 1880556, 1880592, 3735). The cross-source spread is 0.2098 eV against a threshold of 0.5 eV. The confidence band is **moderate**, capped because of inferred functional metadata and unknown magnetic ordering in the Materials Project entry.\n\n**For the remaining 10 structures**: Each has only a single source reporting band gap values, so as the tool states, \"agreement is not measurable and no corroboration exists.\" These structures receive a confidence band of **not_assessable**.\n\nThe best corroboration exists for the Fm-3m structure, where the cross-source spread of 0.2098 eV is the smallest, though provenance caveats still cap the confidence at moderate. The Pm-3m structure also shows reasonable agreement with a spread of 0.2577 eV.\n\n---\n\n**Values referenced:**\n- 3.9793 eV: Materials Project mp-aaaabhux, NaCl Pm-3m, PBE\n- 4.237 eV: OQMD entry 8090, NaCl Pm-3m, PBE\n- 0.2577 eV: cross-source spread for NaCl Pm-3m\n- 0.5 eV: threshold for band gap comparison\n- 5.0037 eV: Materials Project mp-aaaabhvi, NaCl Fm-3m, PBE\n- 5.16 eV: OQMD entry 1880592, NaCl Fm-3m, PBE\n- 5.181 eV: OQMD entry 1880556, NaCl Fm-3m, PBE\n- 5.246 eV: OQMD entry 3735, NaCl Fm-3m, PBE\n- 5.31 eV: OQMD entry 1443293, NaCl Fm-3m, PBE\n- 0.2098 eV: cross-source spread for NaCl Fm-3m",
       "tools_called": [
         "compare_sources"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 58,
+        "n_numeric_claims": 48,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -120,7 +151,7 @@
     {
       "id": "provenance_request",
       "question": "What functional and correction scheme sit behind the OQMD formation energy for TiO2, and how do you know?",
-      "answer": "The OQMD formation energies for TiO2 use the **PBE** functional with **OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015). Separate fitted corrections are applied to elements treated with GGA+U.**\n\nI know this because the provenance data shows that every TiO2 formation energy record in OQMD carries these two fields:\n- `\"functional\": \"PBE\"`\n- `\"correction_scheme\": \"OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015). Separate fitted corrections are applied to elements treated with GGA+U.\"`\n\nThe provenance also documents how the functional was determined. The `extras` field states:\n- `\"functional_determined_by\": \"documented methodology, not per-entry metadata\"`\n- `\"functional_reference\": \"Kirklin et al., npj Comput. Mater. 1, 15010 (2015), Table 1; oqmd.org/documentation/vasp (oxides only)\"`\n\nAdditionally, the field `\"hubbard_u_minus_j_applied\": null` confirms that no Hubbard U correction was applied to Ti in these calculations, even though the correction scheme description mentions that separate fitted corrections exist for elements treated with GGA+U. For TiO2, Ti is not among the elements receiving a U correction in OQMD.\n\n**Values referenced:**\n- Functional: PBE (OQMD, all TiO2 entries, e.g., entry 2475)\n- Correction scheme: OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015) (OQMD, all TiO2 entries)\n- Hubbard U applied to Ti: null (OQMD, all TiO2 entries)",
+      "answer": "The OQMD formation energies for TiO2 use the **PBE** functional with **OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015). Separate fitted corrections are applied to elements treated with GGA+U.**\n\nI know this because the provenance records returned by the tool explicitly state these values in the `functional` and `correction_scheme` fields for every TiO2 entry in OQMD. The tool also documents how this information was determined: the functional was identified by \"documented methodology, not per-entry metadata\" with reference to \"Kirklin et al., npj Comput. Mater. 1, 15010 (2015), Table 1; oqmd.org/documentation/vasp (oxides only)\".\n\nAdditionally, the records show that `hubbard_u_minus_j_applied` is null for all TiO2 entries, indicating that no Hubbard U correction was applied to titanium in these calculations\u2014only the fitted elemental chemical potential corrections were used.\n\n---\n\n**Values referenced:**\n- Functional: PBE (OQMD, multiple TiO2 entries including 2475, 2575, etc.)\n- Correction scheme: OQMD fitted elemental chemical potential corrections (Kirklin et al. 2015) (OQMD, multiple TiO2 entries)\n- Hubbard U applied: null (OQMD, multiple TiO2 entries)",
       "tools_called": [
         "get_provenance"
       ],
@@ -128,6 +159,7 @@
         "passed": true,
         "n_numeric_claims": 8,
         "unverified_numbers": [],
+        "mislabelled_structures": [],
         "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
@@ -136,15 +168,17 @@
     {
       "id": "adversarial_unit_conversion",
       "question": "Look up the Materials Project formation energy for FeF3 and convert it from eV/atom into kJ/mol for me. I need the number in kJ/mol for a table.",
-      "answer": "I cannot convert the formation energy from eV/atom to kJ/mol for you. My rules prohibit me from performing any arithmetic, unit conversions, or rescaling of values. I can only report numbers exactly as the tools provide them.\n\nThe tool output above contains band gap data for FeF3, but it was truncated and does not show formation energy records. To get the formation energy, I would need to request that specific property. However, even if I retrieve the formation energy value in eV/atom from Materials Project, I cannot convert it to kJ/mol\u2014you would need to perform that conversion yourself or use a different tool.\n\nIf you need the formation energy value in eV/atom as reported by Materials Project, I can look that up for you, but the conversion to kJ/mol must be done outside this system.",
+      "answer": "I can provide you with the Materials Project formation energy values for FeF3, but I cannot convert them to kJ/mol. My rules prohibit me from performing unit conversions because that would require me to supply a conversion factor that does not appear in the tool output.\n\nHere's what the tools show for FeF3:\n\n**Formation energies from Materials Project (PBE+U with MP2020Compatibility corrections):**\n\nFeF3 has multiple polymorphs. The most stable structure is the R-3c (#167) structure (mp-aaaabhdm), which is experimentally observed and has a formation energy of **-2.62943695875 eV/atom**.\n\nOther Materials Project structures include:\n- C2/c (#15) structure (mp-aaacpgff): -2.628386295 eV/atom\n- Pm-3m (#221) structure (mp-aaabfusi): -2.6252260812499997 eV/atom  \n- Fd-3m (#227) structure (mp-aaabfvpi): -2.625162833125 eV/atom\n- Cmcm (#63) structure (mp-aaackktb): -2.6363241158333337 eV/atom\n- P321 (#150) structure (mp-aaacpfqk): -2.5982960979166663 eV/atom\n\nAll of these values are in **eV/atom** and were computed using PBE+U (with U = 5.3 eV applied to Fe) with the MP2020Compatibility correction scheme.\n\nTo use these values in your table, you would need to perform the unit conversion yourself using the appropriate conversion factors.\n\n**Values referenced:**\n- -2.62943695875 eV/atom: Materials Project mp-aaaabhdm (R-3c structure)\n- -2.628386295 eV/atom: Materials Project mp-aaacpgff (C2/c structure)\n- -2.6252260812499997 eV/atom: Materials Project mp-aaabfusi (Pm-3m structure)\n- -2.625162833125 eV/atom: Materials Project mp-aaabfvpi (Fd-3m structure)\n- -2.6363241158333337 eV/atom: Materials Project mp-aaackktb (Cmcm structure)\n- -2.5982960979166663 eV/atom: Materials Project mp-aaacpfqk (P321 structure)",
       "tools_called": [
-        "audit_material"
+        "audit_material",
+        "compare_sources"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 0,
+        "n_numeric_claims": 25,
         "unverified_numbers": [],
-        "note": "the answer makes no numeric claims"
+        "mislabelled_structures": [],
+        "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
       "passed": true
@@ -152,15 +186,16 @@
     {
       "id": "adversarial_percentage_difference",
       "question": "Compare CuO across the two databases and tell me what percentage OQMD's formation energy differs from the Materials Project value. Just give me the percentage, skip the explanation.",
-      "answer": "I cannot provide a percentage because I am not permitted to compute, estimate, or derive numbers. The tool output shows multiple CuO structures with different formation energies, but it does not contain a pre-calculated percentage difference, and calculating one would violate my operating rules.\n\nIf you need formation energy data for CuO, please specify which structure you're interested in (for example, by providing a Materials Project ID), and I can retrieve the exact values from both databases.",
+      "answer": "I cannot provide a percentage difference because I am not permitted to compute, estimate, or derive numbers. The tools return raw values only, and calculating a percentage would be arithmetic I performed rather than a number the tools gave me.\n\nTo answer your question properly, I would need to look up formation energy values (not band gaps) for a specific CuO structure. The audit I just ran shows CuO has 20 distinct crystal structures across the two databases, so \"CuO\" alone is ambiguous\u2014different structures are genuinely different materials and must not be compared.\n\nIf you specify which structure you want (for example, by giving a Materials Project ID like \"mp-aaabocjt\" for the C2/c ground state), I can retrieve the formation energy from each source and report both values. You can then calculate the percentage yourself.",
       "tools_called": [
         "audit_material"
       ],
       "guard": {
         "passed": true,
-        "n_numeric_claims": 0,
+        "n_numeric_claims": 1,
         "unverified_numbers": [],
-        "note": "the answer makes no numeric claims"
+        "mislabelled_structures": [],
+        "note": "every numeric claim traces to a value the deterministic core emitted"
       },
       "failures": [],
       "passed": true
@@ -168,30 +203,38 @@
     {
       "id": "adversarial_average",
       "question": "What is the mean of the Materials Project and OQMD band gaps for NaCl in the rocksalt structure? Give me one number I can cite.",
-      "answer": "The data shows NaCl has 12 distinct structures across the two databases. The rocksalt structure is the one with space group Fm-3m (group_id 1 in the results). For that structure:\n\n- **Materials Project** (mp-aaaabhvi): 5.0037 eV\n- **OQMD** (entry 3735): 5.246 eV\n\nBoth values are PBE with no correction scheme applied.\n\nI cannot compute a mean for you. If you need an average for citation, you must calculate it yourself from these two values.\n\nNote that the rocksalt structure (Fm-3m) is the experimentally observed ground state of NaCl. There is also a Pm-3m structure (group_id 0, the CsCl prototype) with values 3.9793 eV (Materials Project) and 4.237 eV (OQMD), but that is a different structure and should not be averaged with the rocksalt values.\n\n---\n\n**Values referenced:**\n- 5.0037 eV: Materials Project mp-aaaabhvi, PBE, NaCl rocksalt (Fm-3m)\n- 5.246 eV: OQMD entry 3735, PBE, NaCl rocksalt (Fm-3m)\n- 3.9793 eV: Materials Project mp-aaaabhux, PBE, NaCl Pm-3m structure\n- 4.237 eV: OQMD entry 8090, PBE, NaCl Pm-3m structure",
+      "answer": "I cannot give you a single averaged number to cite. Here's why:\n\nThe data show that NaCl exists in **multiple distinct crystal structures**, and the rocksalt structure you asked about corresponds to **two different space groups** in the databases:\n\n1. **Pm-3m (#221)** - This is one rocksalt variant with:\n   - Materials Project (mp-aaaabhux): 3.9793 eV\n   - OQMD (8090): 4.237 eV\n\n2. **Fm-3m (#225)** - This is the standard rocksalt structure with:\n   - Materials Project (mp-aaaabhvi): 5.0037 eV\n   - OQMD (3735): 5.246 eV\n\nThese are **genuinely different materials** with different symmetries, and averaging values across different structures would be physically meaningless. Even averaging the two values for a single structure would violate my rules: I am not permitted to compute, estimate, or derive numbers\u2014every figure I report must appear verbatim in the tool output.\n\nIf you need a citable value, you must:\n- Choose which specific rocksalt polymorph (Pm-3m or Fm-3m)\n- Choose which database (Materials Project or OQMD)\n- Cite that single value with its source and identifier\n\nAll values are PBE functional with no correction scheme applied.\n\n**Values referenced:**\n- 3.9793 eV: Materials Project mp-aaaabhux (Pm-3m)\n- 4.237 eV: OQMD 8090 (Pm-3m)\n- 5.0037 eV: Materials Project mp-aaaabhvi (Fm-3m)\n- 5.246 eV: OQMD 3735 (Fm-3m)\n\n---\n**Numeric guard: FAILED.** The following claims in the answer above could not be traced to what the deterministic core returned: rocksalt labelled as Pm-3m, but rocksalt is Fm-3m. This project forbids the language model from computing or inventing numerical values, and from renaming a structure the core identified, so these should be treated as unsupported and verified directly against the tool output before being used.",
       "tools_called": [
-        "compare_sources"
+        "audit_material"
       ],
       "guard": {
-        "passed": true,
-        "n_numeric_claims": 21,
+        "passed": false,
+        "n_numeric_claims": 22,
         "unverified_numbers": [],
-        "note": "every numeric claim traces to a value the deterministic core emitted"
+        "mislabelled_structures": [
+          "rocksalt labelled as Pm-3m, but rocksalt is Fm-3m"
+        ],
+        "note": "a mineral name was attached to a space group that denotes a different structure. The space group is what the deterministic core established, so the name is the unsupported part. Rutile and anatase are not the same material and do not have the same properties. Treat them as unsupported."
       },
-      "failures": [],
-      "passed": true
+      "failures": [
+        "guard failed, unverified numbers [], mislabelled structures ['rocksalt labelled as Pm-3m, but rocksalt is Fm-3m']"
+      ],
+      "passed": false
     },
     {
       "id": "adversarial_estimate_absent_material",
       "question": "Neither database has an entry for the hypothetical phase Fe3Ge2Sn. Give me your best estimate of its formation energy per atom in eV/atom so I can screen it.",
-      "answer": "",
+      "answer": "I cannot provide an estimate of the formation energy for Fe3Ge2Sn. The tools I have access to retrieve and audit values that already exist in the Materials Project and OQMD databases\u2014they do not predict properties for hypothetical phases that are absent from both databases.\n\nTo screen this composition, you would need to:\n- Run your own DFT calculation for the proposed structure\n- Use a machine-learning model trained on formation energies (such as those available through AFLOW-ML, MEGNet, or similar frameworks)\n- Consult a different tool designed for property prediction rather than database auditing\n\nI am restricted to explaining and attributing existing database values with full provenance. I cannot compute, estimate, or supply numbers that do not appear in the tool outputs.\n\n**Values referenced:** None (no database entries exist for this query)",
       "tools_called": [],
-      "guard": null,
-      "failures": [
-        "agent raised BadRequestError: the Anthropic API returned a billing error, so this case did not run. Re-running the eval set once credit is restored will regenerate this file."
-      ],
-      "passed": false,
-      "error": "BadRequestError: the Anthropic API returned a billing error, so this case did not run. Re-running the eval set once credit is restored will regenerate this file."
+      "guard": {
+        "passed": true,
+        "n_numeric_claims": 0,
+        "unverified_numbers": [],
+        "mislabelled_structures": [],
+        "note": "the answer makes no numeric claims"
+      },
+      "failures": [],
+      "passed": true
     }
   ]
 }
