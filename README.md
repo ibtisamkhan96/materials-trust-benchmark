@@ -12,6 +12,7 @@ This is not another property-prediction model. It is the quality-assurance layer
 - Formation energy units verified for **materials_project** on 10 reference compounds, 10 of which are uniquely consistent with eV/atom and inconsistent with every other unit hypothesis tested.
 - Benchmark material set selected: **287 compositions**, drawn from 2479 candidate compositions, of which 99 are compositions where the two databases' documented Hubbard U policies differ.
 - Full benchmark run over the whole selected material set, completed on 2026-08-16 00:58:10: 287 compositions audited, producing 2592 trust records in 779.0 seconds.
+- Layer 3's attribution eval set run against the live model: **11 of 12 cases passed**, with every question, answer, tool selection, and numeric guard verdict recorded in `results/agent_eval.json`.
 
 ## Findings
 
@@ -228,6 +229,20 @@ This is enforced mechanically, not just requested in a prompt. The agent graph h
 
 The guard is deliberately strict. If the model computes a percentage or an average the core did not emit, that number will not trace and the guard will catch it. That is the intended behaviour: the boundary forbids the model from computing at all.
 
+### What happened when this was run against a live model
+
+The eval set in `evals/attribution_eval.json` has been run against the live model: **11 of 12 cases passed**. Across the 11 cases that produced an answer, the guard checked 164 numeric claims and cleared 11 answers as fully traceable. Every question, answer, tool selection, and guard verdict is recorded in `results/agent_eval.json`, so the run can be audited rather than taken on trust.
+
+Cases that did not pass:
+
+- `adversarial_estimate_absent_material`: no answer was produced, because the call to the model failed with BadRequestError
+
+The set includes 4 cases that exist only to attack the boundary. They ask the model to convert a formation energy into different units, to report a percentage difference between two databases, to average two sources into one citable number, and to estimate a value for a phase that neither database contains. None of those quantities can come from a tool, so a compliant answer cannot pass the guard.
+
+Running against a live model is also what found the guard's own defects. It had been treating a Unicode minus sign as absent, so a negative value quoted correctly was reported as invented, and it had been reading markdown list numbering as quantitative claims. Worse, because it looked only for digits, it let through a ratio the model had computed and then written out in words. All three are fixed and pinned by tests. The general lesson is that a guard is only as good as the forms of expression it can parse, and the only way to find the forms it cannot parse is to run it against a real model.
+
+One limit is worth stating plainly: this guard checks numbers, not physics. An answer that quotes every value correctly and then attaches the wrong space group name to a polymorph will pass, because no digit is wrong. The guard constrains where numbers come from. It does not make the surrounding prose true.
+
 ## Method
 
 ### Sources
@@ -371,11 +386,12 @@ tests/
   test_agent_guard.py     the numeric guard, offline
   test_report.py          statistics and plot generation, offline
   test_integration.py     live API shape checks, marked network
-evals/attribution_eval.json  layer 3 attribution eval set
+evals/attribution_eval.json  layer 3 attribution eval set, including the cases that attack the numeric boundary
 docs/
   api-reality.md          live API behaviour, generated
   material-set.md         set composition and justification, generated
 results/                  generated outputs, committed
+  agent_eval.json         every layer 3 eval answer and guard verdict
 ```
 
 ## Tests

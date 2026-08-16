@@ -19,6 +19,14 @@ the guard will say so. That is the intended behaviour, not a false positive: the
 brief forbids the model from computing, so a computed number is exactly what
 should be caught.
 
+Running the eval set against a live model showed three things the first version
+of the guard got wrong, all fixed here. It read a Unicode minus sign as absent,
+so a negative value quoted correctly from a tool was reported as invented. It
+read a markdown list enumerator as a quantitative claim. And because it looked
+only for digits, it let through a ratio the model had computed and then written
+out in words, which is the one class of error that mattered, since it was the
+boundary being crossed without the guard noticing.
+
 Graph shape:
 
     agent  --(tool calls)-->  tools  -->  agent
@@ -53,14 +61,22 @@ Absolute rules:
    verbatim in a tool result. Every number you write is checked against the tool
    output, and untraceable numbers are reported as unverified.
 2. Quote numbers exactly as the tools give them, or rounded, never rescaled.
+   Never convert a value into different units. eV/atom stays eV/atom.
 3. Always state which source each value came from, and name the functional and
    correction scheme when discussing formation energies.
 4. If the tool output does not contain what is needed to answer, say so plainly
-   and stop. Do not fill the gap.
-5. Never present a DFT band gap as a prediction of an experimental one. Standard
+   and stop. Do not fill the gap from your own memory. This holds even when you
+   hedge: do not offer a remembered value as an aside, as a "commonly cited"
+   figure, or as something the reader might check elsewhere. A recalled number
+   is exactly the kind of number this system exists to keep out. Name the
+   quantity in words if you must, and give no figure.
+5. Do not express a comparison as a ratio in words either. "More than five
+   times the threshold" and "twice the spread" are arithmetic you performed.
+   State the two values the tools gave and let the reader compare them.
+6. Never present a DFT band gap as a prediction of an experimental one. Standard
    PBE underestimates gaps substantially, and a computed gap of 0.0 eV does not
    establish that a material is a metal.
-6. Prefer the explanations the tools already provide in their "explanations" and
+7. Prefer the explanations the tools already provide in their "explanations" and
    flag "message" fields. They are generated deterministically and are safe to
    quote.
 
@@ -76,13 +92,54 @@ you used with its source and identifier, so a reader can check it.
 #: not mistaken for quantitative claims.
 NUMBER_PATTERN = re.compile(r"(?<![\w.])[-+]?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?")
 
+#: A live model writes negative values with U+2212 MINUS SIGN about as often as
+#: with ASCII hyphen-minus, and "-0.943" is the same claim either way. Left
+#: alone, the sign is not recognised, the bare magnitude 0.943 is compared
+#: against a source value of -0.943, and a number the tools really did emit is
+#: reported as invented. Normalising also closes the opposite hole: a claim of
+#: U+2212 0.5 can no longer be satisfied by a source value of +0.5, which the
+#: old behaviour would have allowed.
+UNICODE_MINUS = "\u2212"
+
+#: A markdown ordered-list marker is a structural token, not a quantitative
+#: claim. The "4." opening a line enumerates a point; it asserts nothing about a
+#: material. Left in, it is extracted as the number 4 and named as an invented
+#: value, and false positives of that kind teach a reader to ignore the guard.
+#: The pattern is deliberately narrow. Only a short integer followed by a period
+#: and then whitespace, at the very start of a line, is removed, so a real
+#: quantitative claim cannot be smuggled through by dressing it as a list item.
+LIST_MARKER_PATTERN = re.compile(r"^[ \t]{0,3}\d{1,3}\.(?=[ \t])", re.MULTILINE)
+
+#: Spelled-out ratios evade a digit-based guard completely. A live model wrote
+#: "more than five times the documented threshold", which is a ratio it computed
+#: from two tool values and then rendered in words, so no digit appeared for the
+#: guard to check. The boundary forbids computing, not merely forbidding digits,
+#: so these forms are caught as claims in their own right. The vocabulary is
+#: kept small and requires the multiplicative word, because "two databases" is a
+#: count the tools support while "twice the spread" is arithmetic the model did.
+_MULTIPLIER_WORDS = (
+    "one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|"
+    "thirty|forty|fifty|hundred|thousand|several|many"
+)
+WORD_RATIO_PATTERN = re.compile(
+    rf"\b(?:(?:{_MULTIPLIER_WORDS})[\s-]+times|twice|thrice|"
+    r"(?:two|three|four|five|ten|hundred)[\s-]?fold|"
+    r"an?\s+order\s+of\s+magnitude)\b",
+    re.IGNORECASE,
+)
+
 
 # ---------------------------------------------------------------------------
 # The numeric guard
 # ---------------------------------------------------------------------------
 
 def extract_numbers(text: str) -> list[str]:
-    return NUMBER_PATTERN.findall(text or "")
+    return NUMBER_PATTERN.findall((text or "").replace(UNICODE_MINUS, "-"))
+
+
+def extract_word_ratios(text: str) -> list[str]:
+    """Find ratios the model wrote out in words rather than digits."""
+    return [m.group(0) for m in WORD_RATIO_PATTERN.finditer(text or "")]
 
 
 def _as_float(token: str) -> float | None:
@@ -146,11 +203,25 @@ def verify_numeric_claims(
         v for v in (_as_float(t) for t in extract_numbers(permitted_text)) if v is not None
     ]
 
-    claims = extract_numbers(answer)
+    # Stripping list markers applies to the answer only. The tool outputs are
+    # JSON, where a line never opens with an enumerator, so doing it there could
+    # only ever shrink the permitted set for no benefit.
+    claims = extract_numbers(LIST_MARKER_PATTERN.sub("", answer or ""))
     unverified = sorted(
         {c for c in claims if not _traceable(c, permitted)},
         key=lambda c: (_as_float(c) is None, _as_float(c) or 0.0),
     )
+
+    # A ratio in words is a computed quantity with no digit to check, so it can
+    # never be traced. It is reported unless the user's own question used it.
+    word_ratios = [
+        phrase
+        for phrase in extract_word_ratios(answer)
+        if phrase.lower() not in question.lower()
+    ]
+    if word_ratios:
+        claims = [*claims, *word_ratios]
+        unverified = [*unverified, *sorted(set(word_ratios))]
 
     if not claims:
         return GuardResult(
@@ -162,10 +233,12 @@ def verify_numeric_claims(
             n_claims=len(claims),
             unverified=unverified,
             note=(
-                "these numbers do not appear in any tool result and could not be "
-                "traced to a value the deterministic core emitted. They may have "
-                "been computed or invented by the language model, which the "
-                "project's hard boundary forbids. Treat them as unsupported."
+                "these quantities do not appear in any tool result and could not "
+                "be traced to a value the deterministic core emitted. They may "
+                "have been computed or invented by the language model, which the "
+                "project's hard boundary forbids. A ratio written in words is "
+                "listed here for the same reason: it is arithmetic the model did "
+                "rather than a value a tool returned. Treat them as unsupported."
             ),
         )
     return GuardResult(
@@ -179,10 +252,82 @@ def verify_numeric_claims(
 # Tools
 # ---------------------------------------------------------------------------
 
+#: A well studied composition has more polymorphs than a model context can hold.
+#: The live eval set proved it: the Si case built a 219,610 token prompt against
+#: a 200,000 token limit and died with no answer at all, because the audit for Si
+#: spans dozens of structure groups across the two databases.
+#:
+#: Silently dropping entries would be the worse failure. The model would see a
+#: short list and conclude that the missing structures are not in the databases,
+#: which is the false-confidence this whole project exists to prevent. So the cap
+#: keeps every scalar and every count verbatim, keeps whole entries rather than
+#: partial ones, and states inside the payload how many were omitted and how to
+#: retrieve them. No value is ever altered, rescaled, or summarised. An entry is
+#: present in full or it is declared absent.
+TOOL_RESULT_CHAR_BUDGET = 60_000
+
+
+def bound_tool_result(
+    payload: Any, budget: int = TOOL_RESULT_CHAR_BUDGET
+) -> str:
+    """Serialise a core result, capping its size without distorting any value."""
+    text = json.dumps(payload)
+    if len(text) <= budget or not isinstance(payload, dict):
+        return text
+
+    scalars = {
+        k: v for k, v in payload.items() if not (isinstance(v, list) and len(v) > 1)
+    }
+    lists = {k: v for k, v in payload.items() if isinstance(v, list) and len(v) > 1}
+
+    # Room is shared equally between the list fields rather than packed
+    # cleverly. Predictable, explicable behaviour is worth more here than
+    # squeezing in a few more entries.
+    overhead = len(json.dumps(scalars)) + 800
+    share = max(budget - overhead, 0) // max(len(lists), 1)
+
+    trimmed: dict[str, Any] = dict(scalars)
+    omitted: dict[str, int] = {}
+    for key, items in lists.items():
+        kept: list[Any] = []
+        used = 0
+        for item in items:
+            size = len(json.dumps(item)) + 1
+            # Always keep one, so a single oversized entry does not empty the
+            # field and make the composition look absent from the databases.
+            if kept and used + size > share:
+                break
+            kept.append(item)
+            used += size
+        trimmed[key] = kept
+        if len(kept) < len(items):
+            omitted[key] = len(items) - len(kept)
+
+    if omitted:
+        trimmed["truncated"] = {
+            "reason": (
+                "the complete result is larger than a model context window, so "
+                "whole entries were omitted to make it fit"
+            ),
+            "entries_omitted": omitted,
+            "warning": (
+                "every entry shown above is complete and unaltered, but this is "
+                "not the whole result. Do not describe the omitted entries and "
+                "do not conclude that they are absent from the databases. Narrow "
+                "the request, for example to a specific Materials Project ID, to "
+                "see the rest."
+            ),
+        }
+    return json.dumps(trimmed)
+
+
 def build_tools() -> list[Any]:
     """Wrap the core functions as LangChain tools.
 
-    Each tool returns the core's JSON unchanged. None of them interprets a value.
+    Each tool returns the core's JSON with no value interpreted, adjusted, or
+    recomputed. The only departure from returning it byte for byte is the size
+    cap in ``bound_tool_result``, which drops whole entries and says so when a
+    result cannot fit in a model context.
     """
     from langchain_core.tools import tool
 
@@ -195,7 +340,7 @@ def build_tools() -> list[Any]:
         Accepts a composition such as "TiO2" or a Materials Project ID such as
         "mp-149".
         """
-        return json.dumps(mcp_server.audit_material(identifier))
+        return bound_tool_result(mcp_server.audit_material(identifier))
 
     @tool
     def compare_sources(formula: str, property_name: str) -> str:
@@ -205,7 +350,7 @@ def build_tools() -> list[Any]:
         are grouped by structural identity, so same-formula different-structure
         entries appear as separate groups and must not be compared with each other.
         """
-        return json.dumps(mcp_server.compare_sources(formula, property_name))
+        return bound_tool_result(mcp_server.compare_sources(formula, property_name))
 
     @tool
     def get_provenance(source: str, identifier: str) -> str:
@@ -213,7 +358,7 @@ def build_tools() -> list[Any]:
 
         source must be "materials_project" or "oqmd".
         """
-        return json.dumps(mcp_server.get_provenance(source, identifier))
+        return bound_tool_result(mcp_server.get_provenance(source, identifier))
 
     @tool
     def explain_hubbard_policy(formula: str) -> str:

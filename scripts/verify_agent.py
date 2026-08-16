@@ -119,6 +119,20 @@ def check_guard() -> list[str]:
     return problems
 
 
+def _concise_error(exc: Exception) -> str:
+    """Summarise an exception as a type and a short message.
+
+    Provider SDKs put their whole raw error response into the exception text,
+    including a request id and account state. None of that belongs in a results
+    file that gets committed and read by someone else, so keep the leading
+    human-readable part and drop the payload that follows it.
+    """
+    message = str(exc).split("{", 1)[0].strip().rstrip("-").strip()
+    if len(message) > 200:
+        message = message[:197].rstrip() + "..."
+    return f"{type(exc).__name__}: {message}" if message else type(exc).__name__
+
+
 def _mentions(text: str, alternatives: list[str]) -> bool:
     low = text.lower()
     return any(alt.lower() in low for alt in alternatives)
@@ -135,8 +149,24 @@ def run_eval_set() -> tuple[list[dict[str, Any]], list[str]]:
         try:
             explanation = agent.explain(case["question"])
         except Exception as exc:
-            problems.append(f"{case['id']}: agent raised {type(exc).__name__}: {exc}")
-            results.append({"id": case["id"], "error": f"{type(exc).__name__}: {exc}"})
+            summary = _concise_error(exc)
+            problems.append(f"{case['id']}: agent raised {summary}")
+            # Recorded in the same shape as a completed case, so a reader of the
+            # results file does not have to special-case a missing key to find
+            # out that this one never produced an answer.
+            results.append(
+                {
+                    "id": case["id"],
+                    "question": case["question"],
+                    "answer": "",
+                    "tools_called": [],
+                    "guard": None,
+                    "failures": [f"agent raised {summary}"],
+                    "passed": False,
+                    "error": summary,
+                }
+            )
+            print("    result: FAIL (the agent raised before answering)")
             continue
 
         called = [c["name"] for c in explanation.tool_calls]

@@ -37,7 +37,9 @@ def _fmt(value: Any, suffix: str = "") -> str:
     return f"{value}{suffix}"
 
 
-def section_status(summary: Any, unit_check: Any, set_prov: Any) -> list[str]:
+def section_status(
+    summary: Any, unit_check: Any, set_prov: Any, agent_eval: Any = None
+) -> list[str]:
     lines = ["## Current status", ""]
     if unit_check:
         for report in unit_check:
@@ -92,6 +94,14 @@ def section_status(summary: Any, unit_check: Any, set_prov: Any) -> list[str]:
                 "  python scripts/write_readme.py",
                 "  ```",
             ]
+        )
+    if agent_eval:
+        lines.append(
+            f"- Layer 3's attribution eval set run against the live model: "
+            f"**{agent_eval.get('n_passed', 0)} of "
+            f"{agent_eval.get('n_cases', 0)} cases passed**, with every question, "
+            f"answer, tool selection, and numeric guard verdict recorded in "
+            f"`results/agent_eval.json`."
         )
     lines.append("")
     return lines
@@ -414,10 +424,106 @@ def section_findings(summary: Any) -> list[str]:
     return lines
 
 
+def section_agent_eval(agent_eval: Any) -> list[str]:
+    """Report what the attribution eval set did against a live model.
+
+    Rule 7 again: the claim that the guard holds is worth nothing unless it has
+    been tried. If the eval set has not been run, this section says so instead
+    of implying that it has.
+    """
+    lines = ["### What happened when this was run against a live model", ""]
+    if not agent_eval:
+        lines.extend(
+            [
+                "**The attribution eval set has not been run against a live model "
+                "yet.** It needs an `ANTHROPIC_API_KEY`. Until it runs, the only "
+                "evidence for the guard is the offline suite in "
+                "`tests/test_agent_guard.py`, which exercises the guard directly "
+                "but not against real model output.",
+                "",
+                "  ```bash",
+                "  python scripts/verify_agent.py",
+                "  ```",
+                "",
+            ]
+        )
+        return lines
+
+    results = agent_eval.get("results") or []
+    n_cases = agent_eval.get("n_cases", len(results))
+    n_passed = agent_eval.get("n_passed", 0)
+    completed = [r for r in results if r.get("guard")]
+    n_guard_passed = sum(1 for r in completed if (r["guard"] or {}).get("passed"))
+    n_claims = sum(
+        int((r["guard"] or {}).get("n_numeric_claims", 0)) for r in completed
+    )
+    failed = [r for r in results if not r.get("passed")]
+
+    lines.append(
+        f"The eval set in `evals/attribution_eval.json` has been run against the "
+        f"live model: **{n_passed} of {n_cases} cases passed**. Across the "
+        f"{len(completed)} cases that produced an answer, the guard checked "
+        f"{n_claims} numeric claims and cleared {n_guard_passed} answers as "
+        f"fully traceable. Every question, answer, tool selection, and guard "
+        f"verdict is recorded in `results/agent_eval.json`, so the run can be "
+        f"audited rather than taken on trust."
+    )
+    lines.append("")
+
+    if failed:
+        lines.append("Cases that did not pass:")
+        lines.append("")
+        for r in failed:
+            if r.get("error"):
+                # Only the exception type. The provider's raw error body carries
+                # request identifiers and account state that have no business in
+                # a public README.
+                reason = (
+                    f"no answer was produced, because the call to the model "
+                    f"failed with {str(r['error']).split(':')[0]}"
+                )
+            else:
+                reason = "; ".join(r.get("failures") or []) or "no reason recorded"
+            lines.append(f"- `{r['id']}`: {reason}")
+        lines.append("")
+
+    n_adversarial = sum(1 for r in results if r["id"].startswith("adversarial"))
+    lines.extend(
+        [
+            f"The set includes {n_adversarial} cases that exist only to attack the "
+            "boundary. They ask the model to convert a formation energy into "
+            "different units, to report a percentage difference between two "
+            "databases, to "
+            "average two sources into one citable number, and to estimate a value "
+            "for a phase that neither database contains. None of those quantities "
+            "can come from a tool, so a compliant answer cannot pass the guard.",
+            "",
+            "Running against a live model is also what found the guard's own "
+            "defects. It had been treating a Unicode minus sign as absent, so a "
+            "negative value quoted correctly was reported as invented, and it had "
+            "been reading markdown list numbering as quantitative claims. Worse, "
+            "because it looked only for digits, it let through a ratio the model "
+            "had computed and then written out in words. All three are fixed and "
+            "pinned by tests. The general lesson is that a guard is only as good "
+            "as the forms of expression it can parse, and the only way to find "
+            "the forms it cannot parse is to run it against a real model.",
+            "",
+            "One limit is worth stating plainly: this guard checks numbers, not "
+            "physics. An answer that quotes every value correctly and then "
+            "attaches the wrong space group name to a polymorph will pass, "
+            "because no digit is wrong. The guard constrains where numbers come "
+            "from. It does not make the surrounding prose true.",
+            "",
+        ]
+    )
+    return lines
+
+
 def build_readme() -> str:
     summary = _load("summary.json")
     unit_check = _load("unit_check.json")
     set_prov = _load("material_set_provenance.json")
+    agent_eval = _load("agent_eval.json")
 
     lines: list[str] = [
         "# Materials Data Trust Benchmark",
@@ -438,7 +544,7 @@ def build_readme() -> str:
         "",
     ]
 
-    lines.extend(section_status(summary, unit_check, set_prov))
+    lines.extend(section_status(summary, unit_check, set_prov, agent_eval))
 
     lines.extend(
         [
@@ -542,6 +648,7 @@ def build_readme() -> str:
             "guard will catch it. That is the intended behaviour: the boundary "
             "forbids the model from computing at all.",
             "",
+            *section_agent_eval(agent_eval),
             "## Method",
             "",
             "### Sources",
@@ -809,11 +916,13 @@ def build_readme() -> str:
             "  test_agent_guard.py     the numeric guard, offline",
             "  test_report.py          statistics and plot generation, offline",
             "  test_integration.py     live API shape checks, marked network",
-            "evals/attribution_eval.json  layer 3 attribution eval set",
+            "evals/attribution_eval.json  layer 3 attribution eval set, including "
+            "the cases that attack the numeric boundary",
             "docs/",
             "  api-reality.md          live API behaviour, generated",
             "  material-set.md         set composition and justification, generated",
             "results/                  generated outputs, committed",
+            "  agent_eval.json         every layer 3 eval answer and guard verdict",
             "```",
             "",
             "## Tests",
