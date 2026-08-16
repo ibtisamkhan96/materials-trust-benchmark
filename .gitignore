@@ -33,3 +33,7 @@ dist/
 # regenerable caches are unambiguously excluded.
 data/raw/
 data/matminer/
+
+# The static UI's compact index lives under site/data and must be committed.
+!site/data/
+!site/data/**
